@@ -20,7 +20,13 @@ export function log(s) {
 
 export function setCanvasSize() {
   const canvas = document.querySelector("#canvas");
+  const dimensions = {
+    width: window.innerWidth,
+    height: window.innerHeight
+  };
 
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
+  canvas.width = dimensions.width;
+  canvas.height = dimensions.height;
+
+  return dimensions;
 }

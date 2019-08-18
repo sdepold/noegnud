@@ -1,13 +1,13 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-const isProduction = process.env.npm_lifecycle_event === 'build'
+const isProduction = process.env.npm_lifecycle_event === "build";
 
 module.exports = {
-  entry: './src',
-  devtool: !isProduction && 'source-map',
+  entry: "./src",
+  devtool: !isProduction && "source-map",
   module: {
     rules: [
       {
@@ -15,7 +15,7 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader'
+            loader: "css-loader"
           }
         ]
       }
@@ -23,20 +23,20 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: "src/index.html",
       minify: isProduction && {
         collapseWhitespace: true
       },
-      inlineSource: isProduction && '\.(js|css)$'
+      inlineSource: isProduction && "\.(js|css)$"
     }),
     new HtmlWebpackInlineSourcePlugin(),
     new OptimizeCssAssetsPlugin({}),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: "[name].css"
     })
   ],
   devServer: {
-    stats: 'minimal',
+    stats: "minimal",
     overlay: true
   }
-}
+};
