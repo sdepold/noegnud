@@ -19,7 +19,9 @@ export default class Monster {
           }
         }
       });
+
       this.sprite = kontra.Sprite({
+        type: 'monster',
         x: 100,
         y: 100,
         dx: Math.random() * 4 - 2,
@@ -29,22 +31,24 @@ export default class Monster {
 
         animations: spriteSheet.animations
       });
+
+      const originalUpdate = this.sprite.update.bind(this.sprite);
+
+      this.sprite.update = function () {
+        const canvas = kontra.getCanvas();
+
+        originalUpdate();
+
+        if (this.x < 10 || this.x > (canvas.width - 32)) {
+          this.dx *= -1;
+        }
+
+        if (this.y < 16 || this.y > (canvas.height - 82)) {
+          this.dy *= -1;
+        }
+      }.bind(this.sprite);
     }
 
     return this.sprite;
   }
 }
-
-let asteroid = kontra.Sprite({
-  x: 100,
-  y: 100,
-  dx: Math.random() * 4 - 2,
-  dy: Math.random() * 4 - 2,
-  radius: 30,
-  render() {
-    this.context.strokeStyle = "white";
-    this.context.beginPath(); // start drawing a shape
-    this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    this.context.stroke(); // outline the circle
-  }
-});

@@ -1,21 +1,19 @@
 import kontra from "kontra";
-// import Platform from "./entities/platform";
+
 import Player from "./entities/player";
 import Monster from "./entities/monster";
 import Game from "./game";
-// import Level from "./entities/level";
-import { setCanvasSize } from "./helper";
+import { setCanvasSize, log } from "./helper";
+import Level from "./entities/level";
 
-(async () => {
-  setCanvasSize();
-
+(() => {
+  const { width, height } = setCanvasSize();
   const game = new Game();
-  // const level = new Level();
 
   kontra.init();
   kontra.initKeys();
 
-  // level.platforms.forEach(p => game.add(p));
+  game.add(new Level(width, height), 0);
   game.add(new Player(game));
   game.add(new Monster());
   game.add(new Monster());
@@ -23,37 +21,20 @@ import { setCanvasSize } from "./helper";
 
   var loop = kontra.GameLoop({
     update() {
-      let canvas = kontra.getCanvas();
+      const sprites = game.getSprites(layerId => layerId !== "0");
 
-      game.entities.forEach(async entity => {
-        const sprites = await entity.getSprites();
-        sprites.forEach(sprite => {
-          sprite.update();
+      sprites.forEach(sprite => {
+        if (sprite.type === "tile") {
+          return;
+        }
 
-          if (sprite.x < 0) {
-            sprite.x = canvas.width;
-          }
-          // sprite is beyond the right edge
-          else if (sprite.x > canvas.width) {
-            sprite.x = 0;
-          }
-          // sprite is beyond the top edge
-          if (sprite.y < 0) {
-            sprite.y = canvas.height;
-          }
-          // sprite is beyond the bottom edge
-          else if (sprite.y > canvas.height) {
-            sprite.y = 0;
-          }
-
-        });
+        sprite.update();
       });
     },
     render() {
-      game.entities.forEach(async entity => {
-        const sprites = await entity.getSprites();
-        sprites.forEach(s => s.render());
-      });
+      const sprites = game.getSprites();
+
+      sprites.forEach(s => s.render());
     }
   });
 
