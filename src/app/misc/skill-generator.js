@@ -1,4 +1,4 @@
-import Skill from "./entities/skill";
+import Skill from "../entities/skill";
 
 const buffs = [weaponSpeedIncrease, powerIncrease, charSpeedIncrease];
 export default function generateSkills(amount) {

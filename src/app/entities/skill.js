@@ -1,4 +1,4 @@
-import { getImage } from "../helper";
+import { getImage } from "../misc/helper";
 import { SpriteSheet, Sprite } from "kontra";
 
 const skillMap = {

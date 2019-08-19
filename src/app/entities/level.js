@@ -1,5 +1,5 @@
 import { SpriteSheet, Sprite } from "kontra";
-import { getImage } from "../helper";
+import { getImage } from "../misc/helper";
 
 const tileSize = 16.0;
 const renderedTileSize = 32;
