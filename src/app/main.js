@@ -3,7 +3,7 @@ import kontra from "kontra";
 import Player from "./entities/player";
 import Monster from "./entities/monster";
 import Game from "./game";
-import { setCanvasSize, log } from "./helper";
+import { setCanvasSize, log } from "./misc/helper";
 import Level from "./entities/level";
 
 (() => {
@@ -28,13 +28,13 @@ import Level from "./entities/level";
           return;
         }
 
-        sprite.update();
+        sprite.isAlive() && sprite.update();
       });
     },
     render() {
       const sprites = game.getSprites();
 
-      sprites.forEach(s => s.render());
+      sprites.forEach(s => s.isAlive() && s.render());
     }
   });
 

@@ -1,5 +1,7 @@
 import kontra from "kontra";
-import generateSkills from "../skill-generator";
+import generateSkills from "../misc/skill-generator";
+import { addKeyboardControls, addMouseControls } from "./player/controls";
+import Weapon from "./player/weapon";
 
 export default class Player {
   constructor(game) {
@@ -13,6 +15,7 @@ export default class Player {
     this.charSpeedBuff = 0;
     this.skills = generateSkills(5);
     this.level = 10;
+    this.weapons = [new Weapon(this)];
 
     this.skills.forEach(skill => skill.effect(this));
   }
@@ -29,57 +32,25 @@ export default class Player {
     const skillSprites = this.skills.reduce((acc, skill, i) => {
       const skillSprite = skill.getSprites()[0];
 
-      skillSprite.x = (i+1) * (skillSprite.width + 10) - 30;
+      skillSprite.x = (i + 1) * (skillSprite.width + 10) - 30;
 
       return acc.concat(skillSprite);
     }, []);
+    const weaponSprites = this.weapons.flatMap(weapon => weapon.getSprites());
 
-    const allSprites = skillSprites.concat([
-      this.getPlayerSprite(),
-      this.getWeaponSprite()
-    ]);
+    const allSprites = skillSprites
+      .concat(this.getPlayerSprite())
+      .concat(weaponSprites);
 
     return allSprites;
   }
 
-  getWeaponSprite() {
-    if (!this.weaponSprite) {
-      const player = this;
-
-      this.weaponSprite = kontra.Sprite({
-        type: 'weapon',
-        x: 40,
-        y: 0,
-        height: 37,
-        width: 15,
-        image: document.querySelector("#sword"),
-        anchor: { x: 0, y: 1 },
-        rotation: 0,
-        rotationDelta: player.swordSpeed,
-        update() {
-          if (this.animate) {
-            this.rotation = this.rotation + this.rotationDelta;
-          }
-
-          if (this.rotation >= 2) {
-            this.rotationDelta = -player.swordSpeed;
-          }
-
-          if (this.rotation < 0) {
-            this.rotationDelta = player.swordSpeed;
-            this.rotation = 0;
-            this.animate = false;
-          }
-        }
-      });
-    }
-
-    return this.weaponSprite;
-  }
-
   hit() {
-    if (!this.weaponSprite.animate) {
-      this.weaponSprite.animate = true;
+    if (this.primaryWeapon) {
+      this.primaryWeapon.throw();
+      setTimeout(() => {
+        this.weapons.push(new Weapon(this));
+      }, 500);
     }
   }
 
@@ -99,7 +70,7 @@ export default class Player {
       });
 
       this.playerSprite = kontra.Sprite({
-        type: 'player',
+        type: "player",
         x: 10,
         y: this.y - this.size,
         height: 52,
@@ -107,41 +78,14 @@ export default class Player {
         animations: spriteSheet.animations
       });
 
-      this.bindEvents();
+      addKeyboardControls(this);
+      addMouseControls(this);
     }
 
     return this.playerSprite;
   }
 
-  bindEvents() {
-    const originalUpdate = this.playerSprite.update;
-    const player = this;
-
-    this.playerSprite.update = function() {
-      originalUpdate.call(this);
-
-      player.weaponSprite.x = this.x + 15;
-      player.weaponSprite.y = this.y + 35;
-
-      if (kontra.keyPressed("left")) {
-        this.dx = -5 - player.charSpeedBuff;
-      } else if (kontra.keyPressed("right")) {
-        this.dx = 5 + player.charSpeedBuff;
-      } else {
-        this.dx = 0;
-      }
-
-      if (kontra.keyPressed("up")) {
-        this.dy = -5 - player.charSpeedBuff;
-      } else if (kontra.keyPressed("down")) {
-        this.dy = 5 + player.charSpeedBuff;
-      } else {
-        this.dy = 0;
-      }
-
-      if (kontra.keyPressed("space")) {
-        player.hit();
-      }
-    }.bind(this.playerSprite);
+  get primaryWeapon() {
+    return this.weapons.find(w => !w.animate);
   }
 }
