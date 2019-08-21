@@ -18,6 +18,26 @@ export default class Game {
     return sprites.flat();
   }
 
+  /*
+    getClosest(player, 'monster');
+  */
+  getClosest(source, type) {
+    const sprites = this.getSprites((l) => l.type !== 'tile');
+    const spritesOfType = sprites.filter(s => (s !== source) && s.type === type);
+    const getDistance = (a, b) => Math.sqrt(
+      Math.pow(Math.abs(a.x - b.x), 2) +
+      Math.pow(Math.abs(a.y - b.y), 2)
+    );
+    const sortedSprites = spritesOfType.sort((a, b) => {
+      return getDistance(source, a) - getDistance(source, b);
+    })
+
+    return {
+      distance: getDistance(source, sortedSprites[0]),
+      sprite: sortedSprites[0]
+    };
+  }
+
   findCurrentPlatform(playerX) {
     return this.entities.find(entity => {
       return (

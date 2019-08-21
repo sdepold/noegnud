@@ -45,9 +45,9 @@ export default class Player {
     return allSprites;
   }
 
-  hit() {
+  hit(target) {
     if (this.primaryWeapon) {
-      this.primaryWeapon.throw();
+      this.primaryWeapon.throw(target);
       setTimeout(() => {
         this.weapons.push(new Weapon(this));
       }, 500);
