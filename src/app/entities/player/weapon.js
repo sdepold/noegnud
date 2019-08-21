@@ -37,7 +37,6 @@ export default class Weapon {
 
         if (weapon.animate) {
           this.rotation = this.rotation + player.swordSpeed;
-          this.dx = 4;
         }
       }.bind(this.sprite);
     }
@@ -45,7 +44,19 @@ export default class Weapon {
     return this.sprite;
   }
 
-  throw() {
+  throw(target) {
+    this.target = target;
+
+    let targetDX = target.x - this.sprite.x;
+    let targetDY = target.y - this.sprite.y;
+
+    // Normalize
+    const targetLength = Math.sqrt(target.x * target.x + target.y * target.y);
+    targetDX = targetDX / targetLength;
+    targetDY = targetDY / targetLength;
+
+    this.sprite.dx = targetDX * 10;
+    this.sprite.dy = targetDY * 10;
     this.animate = true;
     this.sprite.ttl = 75;
   }

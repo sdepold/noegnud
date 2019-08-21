@@ -7,6 +7,12 @@ export function addKeyboardControls(player) {
     originalUpdate.call(this);
     player.primaryWeapon && player.primaryWeapon.syncPosition(this)
 
+    const closestMonster = player.game.getClosest(player.playerSprite, 'monster');
+
+    if (closestMonster.distance < 200) {
+      player.hit(closestMonster.sprite);
+    }
+
     if (kontra.keyPressed("left")) {
       this.dx = -5 - player.charSpeedBuff;
     } else if (kontra.keyPressed("right")) {
@@ -23,9 +29,9 @@ export function addKeyboardControls(player) {
       this.dy = 0;
     }
 
-    if (kontra.keyPressed("space")) {
-      player.hit();
-    }
+    // if (kontra.keyPressed("space")) {
+    //   player.hit();
+    // }
   }.bind(player.playerSprite);
 }
 
