@@ -2,6 +2,7 @@ import kontra from "kontra";
 import generateSkills from "../misc/skill-generator";
 import { addKeyboardControls, addMouseControls } from "./player/controls";
 import Weapon from "./player/weapon";
+import { addShadow } from "../misc/helper";
 
 export default class Player {
   constructor(game) {
@@ -56,11 +57,23 @@ export default class Player {
   }
 
   resetTarget() {
+    if (this.target) {
+      this.target.targeted = false;
+    }
+
     this.target = null;
+    this.targetDelay = this.targetDelay || setTimeout(() => {
+      delete this.targetDelay;
+    }, 1000);
   }
 
   setTarget(target) {
+    if (this.targetDelay) {
+      return;
+    }
+
     this.target = this.target || target;
+    this.target.targeted = true;
   }
 
   getPlayerSprite() {
@@ -87,6 +100,7 @@ export default class Player {
         animations: spriteSheet.animations
       });
 
+      addShadow(this.playerSprite);
       addKeyboardControls(this);
       addMouseControls(this);
     }
