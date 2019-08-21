@@ -1,16 +1,28 @@
 import kontra from "kontra";
 
+const setPlayerTarget = (player) => {
+  const closestMonster = player.game.getClosest(
+    player.playerSprite,
+    "monster"
+  );
+
+  if (closestMonster.distance) {
+    player.setTarget(closestMonster.sprite);
+    player.hit();
+  }
+};
+
 export function addKeyboardControls(player) {
   const originalUpdate = player.playerSprite.update;
 
   player.playerSprite.update = function() {
     originalUpdate.call(this);
-    player.primaryWeapon && player.primaryWeapon.syncPosition(this)
 
-    const closestMonster = player.game.getClosest(player.playerSprite, 'monster');
-
-    if (closestMonster.distance < 200) {
-      player.hit(closestMonster.sprite);
+    if (player.isMoving) {
+      player.primaryWeapon && player.primaryWeapon.syncPosition(this);
+      player.resetTarget();
+    } else {
+      setPlayerTarget(player);
     }
 
     if (kontra.keyPressed("left")) {
@@ -29,9 +41,7 @@ export function addKeyboardControls(player) {
       this.dy = 0;
     }
 
-    // if (kontra.keyPressed("space")) {
-    //   player.hit();
-    // }
+    player.isMoving = this.dx || this.dy;
   }.bind(player.playerSprite);
 }
 
@@ -43,12 +53,15 @@ export function addMouseControls(player) {
   const canvas = kontra.getCanvas();
   const sprite = player.playerSprite;
 
+  canvas.addEventListener("touchstart", e => {
+    player.resetTarget();
+  });
   canvas.addEventListener("touchmove", e => {
     e.preventDefault();
 
     const { clientX, clientY } = e.targetTouches[0];
-    let targetDX = clientX - (sprite.x + (sprite.width / 2 ));
-    let targetDY = clientY - (sprite.y + (sprite.height / 2 ));
+    let targetDX = clientX - (sprite.x + sprite.width / 2);
+    let targetDY = clientY - (sprite.y + sprite.height / 2);
 
     // Normalize
     const targetLength = Math.sqrt(clientX * clientX + clientY * clientY);
@@ -57,12 +70,16 @@ export function addMouseControls(player) {
 
     sprite.dx = targetDX * 10;
     sprite.dy = targetDY * 10;
+
+    player.isMoving = true;
   });
   canvas.addEventListener(
     "touchend",
     e => {
-        sprite.dx = 0;
-        sprite.dy = 0;
+      sprite.dx = 0;
+      sprite.dy = 0;
+      player.isMoving = false;
+      setPlayerTarget(player);
     },
     false
   );

@@ -3,12 +3,15 @@ import kontra from "kontra";
 export default class Weapon {
   constructor(player) {
     this.player = player;
+    this.syncPosition(player.getPlayerSprite());
   }
 
   syncPosition({ x, y }) {
+    const sprite = this.getSprites();
+
     if (!this.animate) {
-      this.sprite.x = x + 15;
-      this.sprite.y = y + 35;
+      sprite.x = x + 15;
+      sprite.y = y + 35;
     }
   }
 
