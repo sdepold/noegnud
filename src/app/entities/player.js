@@ -16,6 +16,7 @@ export default class Player {
     this.skills = generateSkills(5);
     this.level = 10;
     this.weapons = [new Weapon(this)];
+    this.target = null;
 
     this.skills.forEach(skill => skill.effect(this));
   }
@@ -45,13 +46,21 @@ export default class Player {
     return allSprites;
   }
 
-  hit(target) {
-    if (this.primaryWeapon) {
-      this.primaryWeapon.throw(target);
+  hit() {
+    if (this.primaryWeapon && this.target) {
+      this.primaryWeapon.throw(this.target);
       setTimeout(() => {
         this.weapons.push(new Weapon(this));
       }, 500);
     }
+  }
+
+  resetTarget() {
+    this.target = null;
+  }
+
+  setTarget(target) {
+    this.target = this.target || target;
   }
 
   getPlayerSprite() {
