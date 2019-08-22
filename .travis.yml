@@ -1,9 +1,12 @@
 language: node_js
+
 node_js:
 - 8
+
 script:
 - yarn
 - yarn build
+
 deploy:
   - edge:
       branch: v1.8.47
@@ -15,3 +18,7 @@ deploy:
     on:
       branch: master
 
+cache:
+  yarn: true
+  directories:
+    - node_modules
