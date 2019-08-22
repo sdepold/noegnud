@@ -18,28 +18,17 @@ export function addKeyboardControls(player) {
 
     originalUpdate.call(this);
 
+    const axis = player.controller.getAxis();
+
+    this.dx = axis.x * 2;
+    this.dy = axis.y * 2;
+
     if (player.isMoving) {
       player.primaryWeapon && player.primaryWeapon.syncPosition(this);
       player.resetTarget();
     } else {
       setPlayerTarget(player);
     }
-
-    // if (kontra.keyPressed("left")) {
-    //   this.dx = -5 - player.charSpeedBuff;
-    // } else if (kontra.keyPressed("right")) {
-    //   this.dx = 5 + player.charSpeedBuff;
-    // } else {
-    //   this.dx = 0;
-    // }
-
-    // if (kontra.keyPressed("up")) {
-    //   this.dy = -5 - player.charSpeedBuff;
-    // } else if (kontra.keyPressed("down")) {
-    //   this.dy = 5 + player.charSpeedBuff;
-    // } else {
-    //   this.dy = 0;
-    // }
   }.bind(player.playerSprite);
 }
 
@@ -57,18 +46,6 @@ export function addMouseControls(player) {
 
   canvas.addEventListener("touchmove", e => {
     e.preventDefault();
-
-    const { clientX, clientY } = e.targetTouches[0];
-    let targetDX = clientX - (sprite.x + sprite.width / 2);
-    let targetDY = clientY - (sprite.y + sprite.height / 2);
-
-    // Normalize
-    const targetLength = Math.sqrt(clientX * clientX + clientY * clientY);
-    targetDX = targetDX / targetLength;
-    targetDY = targetDY / targetLength;
-
-    sprite.dx = targetDX * 10;
-    sprite.dy = targetDY * 10;
   });
 
   canvas.addEventListener(

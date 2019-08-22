@@ -5095,6 +5095,11 @@ vendors@^1.0.0:
   resolved "https://registry.npmjs.org/vendors/-/vendors-1.0.3.tgz#a6467781abd366217c050f8202e7e50cc9eef8c0"
   integrity sha512-fOi47nsJP5Wqefa43kyWSg80qF+Q3XA6MUkgi7Hp1HQaKDQW4cQrK2D0P7mmbFtsV1N89am55Yru/nyEwRubcw==
 
+virtual-stick@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/virtual-stick/-/virtual-stick-1.0.6.tgz#7de1a690f41a005815715005f24b3aac8743de54"
+  integrity sha512-YkJkWxMTjTzBCBR4Tp5rPmYJndkyzFflaF6MzK8TR6lxT46Bj1+fmhAPnKdsbozgX65tQX7wf1PMdpWnkL8b1Q==
+
 vm-browserify@^1.0.1:
   version "1.1.0"
   resolved "https://registry.npmjs.org/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"

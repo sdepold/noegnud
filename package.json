@@ -19,6 +19,7 @@
     "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
-    "kontra": "6.2.1"
+    "kontra": "6.2.1",
+    "virtual-stick": "^1.0.6"
   }
 }
