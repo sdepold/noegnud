@@ -4,6 +4,7 @@ node_js:
 script:
 - yarn
 - yarn build
+dist: xenial
 deploy:
   provider: pages
   skip_cleanup: true
