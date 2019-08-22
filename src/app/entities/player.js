@@ -22,6 +22,12 @@ export default class Player {
     this.skills.forEach(skill => skill.effect(this));
   }
 
+  get isMoving() {
+    const sprite = this.getPlayerSprite()
+
+    return (sprite.prevX || sprite.x) !== sprite.x || (sprite.prevY || sprite.y) !== sprite.y;
+  }
+
   get swordSpeed() {
     return this._swordSpeed + this.swordSpeedBuff;
   }
@@ -62,16 +68,9 @@ export default class Player {
     }
 
     this.target = null;
-    this.targetDelay = this.targetDelay || setTimeout(() => {
-      delete this.targetDelay;
-    }, 1000);
   }
 
   setTarget(target) {
-    if (this.targetDelay) {
-      return;
-    }
-
     this.target = this.target || target;
     this.target.targeted = true;
   }
