@@ -14,3 +14,11 @@ body {
 .images {
   display: none;
 }
+
+#controller {
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+}

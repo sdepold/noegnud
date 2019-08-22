@@ -5,8 +5,9 @@ import Weapon from "./player/weapon";
 import { addShadow } from "../misc/helper";
 
 export default class Player {
-  constructor(game) {
+  constructor(game, controller) {
     this.game = game;
+    this.controller = controller;
     this.y = 100;
     this.size = 52;
     this._power = 10;
