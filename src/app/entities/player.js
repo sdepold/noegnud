@@ -24,9 +24,12 @@ export default class Player {
   }
 
   get isMoving() {
-    const sprite = this.getPlayerSprite()
+    const sprite = this.getPlayerSprite();
 
-    return (sprite.prevX || sprite.x) !== sprite.x || (sprite.prevY || sprite.y) !== sprite.y;
+    return (
+      (sprite.prevX || sprite.x) !== sprite.x ||
+      (sprite.prevY || sprite.y) !== sprite.y
+    );
   }
 
   get swordSpeed() {

@@ -18,7 +18,14 @@ module.exports = {
             loader: "css-loader"
           }
         ]
-      }
+      },
+      {
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-loader'
+        }
+      },
+      { test: /\.gif$/, use: [ "file-loader" ] },
     ]
   },
   plugins: [
