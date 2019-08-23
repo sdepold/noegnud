@@ -18,10 +18,12 @@ import ProgressBar from "./progress-bar";
     "track-color": "#72d6ce99",
     "track-stroke-color": "#222222"
   });
+  let player;
   const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
+    player = new Player(game, controller);
     game.remove(progressBar);
     game.add(new Level(width, height), 0);
-    game.add(new Player(game, controller));
+    game.add(player);
     game.add(new Monster());
     game.add(new Monster());
     game.add(new Monster());
@@ -48,6 +50,7 @@ import ProgressBar from "./progress-bar";
               monster.entity.healthPoints -= 100;
               if (monster.entity.healthPoints <= 0) {
                 monster.ttl = 0;
+                player.resetTarget();
               }
               sprite.ttl = 0;
             }
