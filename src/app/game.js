@@ -20,7 +20,7 @@ export default class Game {
       return layer.flatMap(o => o.getSprites());
     });
 
-    return sprites.flat();
+    return sprites.flat().filter(s => s.isAlive());
   }
 
   /*

@@ -4,9 +4,12 @@ import { addKeyboardControls, addMouseControls } from "./player/controls";
 import Weapon from "./player/weapon";
 import { addShadow } from "../misc/shadow";
 import { addHealth } from "../misc/health";
+import Base from "./base";
 
-export default class Player {
+export default class Player extends Base {
   constructor(game, controller) {
+    super();
+
     this.game = game;
     this.controller = controller;
     this.y = 100;
@@ -17,10 +20,8 @@ export default class Player {
     this.swordSpeedBuff = 0;
     this.charSpeedBuff = 0;
     this.skills = generateSkills(5);
-    this.level = 10;
     this.weapons = [new Weapon(this)];
     this.target = null;
-    this.health = 50;
 
     this.skills.forEach(skill => skill.effect(this));
   }

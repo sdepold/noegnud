@@ -1,11 +1,13 @@
 import kontra from "kontra";
 import { addShadow } from "../misc/shadow";
 import { addHealth } from "../misc/health";
+import Base from "./base";
 
-export default class Monster {
-  constructor(health) {
-    this.health = health || 100;
+export default class Monster extends Base {
+  constructor({ level = 10 } = {}) {
+    super({ level });
   }
+
   getSprites() {
     return [this.getMonsterSprite()];
   }
@@ -26,6 +28,7 @@ export default class Monster {
       });
 
       this.sprite = kontra.Sprite({
+        entity: this,
         type: "monster",
         x: 100,
         y: 100,
