@@ -7,6 +7,11 @@ export default class Game {
     this.layers[layerId] = (this.layers[layerId] || []).concat(entities);
   }
 
+  remove(entity, layerId = 10) {
+    this.layers[layerId] = (this.layers[layerId] || [])
+      .filter(e => e != entity);
+  }
+
   getSprites(layerFilter = () => true) {
     const layerIds = Object.keys(this.layers).sort().filter(layerFilter);
     const sprites = layerIds.flatMap(layerId => {
@@ -22,15 +27,15 @@ export default class Game {
     getClosest(player, 'monster');
   */
   getClosest(source, type) {
-    const sprites = this.getSprites((l) => l.type !== 'tile');
-    const spritesOfType = sprites.filter(s => (s !== source) && s.type === type);
-    const getDistance = (a, b) => Math.sqrt(
-      Math.pow(Math.abs(a.x - b.x), 2) +
-      Math.pow(Math.abs(a.y - b.y), 2)
-    );
+    const sprites = this.getSprites(l => l.type !== "tile");
+    const spritesOfType = sprites.filter(s => s !== source && s.type === type);
+    const getDistance = (a, b) =>
+      Math.sqrt(
+        Math.pow(Math.abs(a.x - b.x), 2) + Math.pow(Math.abs(a.y - b.y), 2)
+      );
     const sortedSprites = spritesOfType.sort((a, b) => {
       return getDistance(source, a) - getDistance(source, b);
-    })
+    });
 
     return {
       distance: getDistance(source, sortedSprites[0]),
