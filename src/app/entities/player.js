@@ -2,7 +2,8 @@ import kontra from "kontra";
 import generateSkills from "../misc/skill-generator";
 import { addKeyboardControls, addMouseControls } from "./player/controls";
 import Weapon from "./player/weapon";
-import { addShadow } from "../misc/helper";
+import { addShadow } from "../misc/shadow";
+import { addHealth } from "../misc/health";
 
 export default class Player {
   constructor(game, controller) {
@@ -19,6 +20,7 @@ export default class Player {
     this.level = 10;
     this.weapons = [new Weapon(this)];
     this.target = null;
+    this.health = 50;
 
     this.skills.forEach(skill => skill.effect(this));
   }
@@ -104,6 +106,7 @@ export default class Player {
       });
 
       addShadow(this.playerSprite);
+      addHealth(this, this.playerSprite);
       addKeyboardControls(this);
       addMouseControls(this);
     }

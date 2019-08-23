@@ -1,7 +1,11 @@
 import kontra from "kontra";
-import { addShadow } from "../misc/helper";
+import { addShadow } from "../misc/shadow";
+import { addHealth } from "../misc/health";
 
 export default class Monster {
+  constructor(health) {
+    this.health = health || 100;
+  }
   getSprites() {
     return [this.getMonsterSprite()];
   }
@@ -29,33 +33,29 @@ export default class Monster {
         dy: Math.random() * 4 - 2,
         height: 52,
         width: 32,
+        animations: spriteSheet.animations,
 
-        animations: spriteSheet.animations
+        update() {
+          this.advance();
+
+          if (this.targeted) {
+            this.shadowColor = "rgba(250, 100, 100, 0.7)";
+          } else {
+            this.shadowColor = "rgba(0, 0, 0, 0.5)";
+          }
+
+          if (this.x < 10 || this.x > canvas.width - 32) {
+            this.dx *= -1;
+          }
+
+          if (this.y < 16 || this.y > canvas.height - 82) {
+            this.dy *= -1;
+          }
+        }
       });
 
       addShadow(this.sprite, { x: -5 });
-
-      const originalUpdate = this.sprite.update.bind(this.sprite);
-
-      this.sprite.update = function() {
-        const canvas = kontra.getCanvas();
-
-        originalUpdate();
-
-        if (this.targeted) {
-          this.shadowColor = "rgba(250, 100, 100, 0.7)"
-        } else {
-          this.shadowColor = "rgba(0, 0, 0, 0.5)";
-        }
-
-        if (this.x < 10 || this.x > canvas.width - 32) {
-          this.dx *= -1;
-        }
-
-        if (this.y < 16 || this.y > canvas.height - 82) {
-          this.dy *= -1;
-        }
-      }.bind(this.sprite);
+      addHealth(this, this.sprite, { x: -5, y: 10 });
     }
 
     return this.sprite;
