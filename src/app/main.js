@@ -34,16 +34,24 @@ import ProgressBar from "./progress-bar";
   var loop = kontra.GameLoop({
     update() {
       const sprites = game.getSprites(layerId => layerId !== "0");
-      const monsters = sprites.filter(s => s.type === 'monster');
+      const monsters = sprites.filter(s => s.type === "monster");
 
       sprites.forEach(sprite => {
-        if (sprite.type === 'weapon') {
+        if (sprite.type === "weapon") {
           monsters.forEach(monster => {
-            if (monster.collidesWith(sprite) || sprite.collidesWith(monster)) {
+            const dx = monster.x - sprite.x;
+            const dy = monster.y - sprite.y;
+            const collision =
+              Math.sqrt(dx * dx + dy * dy) < monster.width + sprite.width - 20;
+
+            if (collision) {
               monster.entity.healthPoints -= 100;
+              if (monster.entity.healthPoints <= 0) {
+                monster.ttl = 0;
+              }
               sprite.ttl = 0;
             }
-          })
+          });
         }
 
         sprite.update();
