@@ -1,8 +1,10 @@
 import kontra from "kontra";
+import { radiansToDegrees } from "../../misc/helper";
 
 export default class Weapon {
   constructor(player) {
     this.player = player;
+
     this.syncPosition(player.getPlayerSprite());
   }
 
@@ -30,7 +32,7 @@ export default class Weapon {
         image: document.querySelector("#sword"),
         anchor: { x: 0, y: 1 },
         rotation: 0,
-        rotationDelta: player.swordSpeed,
+        rotationDelta: player.swordSpeed
       });
 
       const spriteUpdate = this.sprite.update.bind(this.sprite);
@@ -48,18 +50,16 @@ export default class Weapon {
   }
 
   throw(target) {
-    this.target = target;
+    const speed = 5;
 
-    let targetDX = target.x - this.sprite.x;
-    let targetDY = target.y - this.sprite.y;
+    const tx = (target.x + this.sprite.width / 2) - (this.sprite.x + this.sprite.width / 2);
+    const ty = (target.y + this.sprite.height / 2) - (this.sprite.y + this.sprite.height / 2);
+    const dist = Math.sqrt(tx * tx + ty * ty);
+    const targetDx = tx / dist * speed;
+    const targetDy = ty / dist * speed;
 
-    // Normalize
-    const targetLength = Math.sqrt(target.x * target.x + target.y * target.y);
-    targetDX = targetDX / targetLength;
-    targetDY = targetDY / targetLength;
-
-    this.sprite.dx = targetDX * 10;
-    this.sprite.dy = targetDY * 10;
+    this.sprite.dx = targetDx;
+    this.sprite.dy = targetDy;
     this.animate = true;
     this.sprite.ttl = 75;
   }

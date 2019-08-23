@@ -23,7 +23,7 @@ export default class ProgressBar {
                 markLoaded(asset);
               };
             }
-        }, i * 200);
+        }, i * 100);
     });
   }
 

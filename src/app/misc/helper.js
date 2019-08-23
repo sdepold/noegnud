@@ -9,7 +9,6 @@ export function getImage(url) {
   });
 }
 
-
 let logBuffer = [];
 export function log(s) {
   logBuffer.push(s);
@@ -30,4 +29,8 @@ export function setCanvasSize() {
   canvas.height = dimensions.height;
 
   return dimensions;
+}
+
+export function radiansToDegrees(radians) {
+  return radians * (180 / Math.PI);
 }

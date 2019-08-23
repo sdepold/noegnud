@@ -32,10 +32,6 @@ export function addKeyboardControls(player) {
   }.bind(player.playerSprite);
 }
 
-function radiansToDegrees(radians) {
-  return radians * (180 / Math.PI);
-}
-
 export function addMouseControls(player) {
   const canvas = kontra.getCanvas();
   const sprite = player.playerSprite;
