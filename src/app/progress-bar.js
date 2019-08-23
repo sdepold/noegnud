@@ -14,14 +14,16 @@ export default class ProgressBar {
       this.loaded.push(asset);
       this.verify();
     };
-    this.assets.forEach(asset => {
-      if (asset.complete) {
-        markLoaded(asset);
-      } else {
-        asset.onload = () => {
-          markLoaded(asset);
-        };
-      }
+    this.assets.forEach((asset, i) => {
+        setTimeout(() => {
+            if (asset.complete) {
+              markLoaded(asset);
+            } else {
+              asset.onload = () => {
+                markLoaded(asset);
+              };
+            }
+        }, i * 200);
     });
   }
 
