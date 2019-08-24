@@ -1,7 +1,7 @@
 import kontra from "kontra";
 
 import Player from "./entities/player";
-import Monster from "./entities/monster";
+import Monster, {skullMask} from "./entities/monster";
 import Game from "./game";
 import { setCanvasSize, log } from "./misc/helper";
 import Level from "./entities/level";
@@ -28,9 +28,9 @@ import ProgressBar from "./progress-bar";
     game.remove(progressBar);
     game.add(level, 0);
     game.add(player);
-    game.add(new Monster());
-    game.add(new Monster());
-    game.add(new Monster());
+    game.add(skullMask());
+    // game.add(new Monster());
+    // game.add(new Monster());
   });
 
   kontra.init();

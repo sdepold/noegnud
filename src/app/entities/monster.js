@@ -4,15 +4,21 @@ import { addHealth } from "../misc/health";
 import Base from "./base";
 
 export default class Monster extends Base {
-  constructor({ level = 10 } = {}) {
+  constructor(
+    { level = 10, attack = () => {}, shouldAttack = () => false } = {}
+  ) {
     super({ level });
+    this.attack = attack;
+    this.shouldAttack = shouldAttack;
   }
 
   getSprites() {
-    return [this.getMonsterSprite()];
+    return this.weapons.concat(this.getMonsterSprite());
   }
 
   getMonsterSprite() {
+    const monster = this;
+
     if (!this.sprite) {
       const image = document.querySelector("#chars");
       const spriteSheet = kontra.SpriteSheet({
@@ -54,6 +60,10 @@ export default class Monster extends Base {
           if (this.y < 16 || this.y > canvas.height - 82) {
             this.dy *= -1;
           }
+
+          if (monster.shouldAttack(monster, this)) {
+            monster.attack(monster, this);
+          }
         }
       });
 
@@ -64,3 +74,49 @@ export default class Monster extends Base {
     return this.sprite;
   }
 }
+
+export const skullMask = () => {
+  const weaponSheet = kontra.SpriteSheet({
+    image: document.querySelector("#weapons"),
+    frameWidth: 8,
+    frameHeight: 19,
+    animations: {
+      weapon: {
+        frames: "1..1",
+        frameRate: 1
+      }
+    }
+  });
+
+  return new Monster({
+    shouldAttack: monster => {
+      const result = monster.attackAt && monster.attackAt < ~~new Date();
+
+      if (!monster.attackAt || monster.attackAt < ~~new Date()) {
+        monster.attackAt = ~~new Date() + 100;
+      }
+
+      return result;
+    },
+    attack: (monster, sprite) => {
+      monster.weapons.push(
+        kontra.Sprite({
+          type: "monsterWeapon",
+          x: sprite.x,
+          y: sprite.y,
+          dx: -2,
+          height: 19,
+          width: 8,
+          animations: weaponSheet.animations,
+          // anchor: { x: 0, y: 1 },
+          rotation: 0,
+          rotationDelta: 1,
+          update() {
+            this.advance();
+            this.rotation = this.rotation + 0.3;
+          }
+        })
+      );
+    }
+  });
+};

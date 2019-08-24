@@ -22,6 +22,18 @@ export default class Weapon {
       const weapon = this;
       const player = this.player;
 
+      const spriteSheet = kontra.SpriteSheet({
+        image: document.querySelector("#weapons"),
+        frameWidth: 8,
+        frameHeight: 19,
+        animations: {
+          weapon: {
+            frames: "0..0",
+            frameRate: 1
+          }
+        }
+      });
+
       this.sprite = kontra.Sprite({
         type: "weapon",
         x: 40,
@@ -29,21 +41,18 @@ export default class Weapon {
         dx: 0,
         height: 38,
         width: 16,
-        image: document.querySelector("#sword"),
+        animations: spriteSheet.animations,
         anchor: { x: 0, y: 1 },
         rotation: 0,
-        rotationDelta: player.swordSpeed
-      });
+        rotationDelta: player.swordSpeed,
+        update() {
+          this.advance();
 
-      const spriteUpdate = this.sprite.update.bind(this.sprite);
-
-      this.sprite.update = function() {
-        spriteUpdate();
-
-        if (weapon.animate) {
-          this.rotation = this.rotation + player.swordSpeed;
+          if (weapon.animate) {
+            this.rotation = this.rotation + player.swordSpeed;
+          }
         }
-      }.bind(this.sprite);
+      });
     }
 
     return this.sprite;
@@ -52,8 +61,14 @@ export default class Weapon {
   throw(target) {
     const speed = 5;
 
-    const tx = (target.x + this.sprite.width / 2) - (this.sprite.x + this.sprite.width / 2);
-    const ty = (target.y + this.sprite.height / 2) - (this.sprite.y + this.sprite.height / 2);
+    const tx =
+      target.x +
+      this.sprite.width / 2 -
+      (this.sprite.x + this.sprite.width / 2);
+    const ty =
+      target.y +
+      this.sprite.height / 2 -
+      (this.sprite.y + this.sprite.height / 2);
     const dist = Math.sqrt(tx * tx + ty * ty);
     const targetDx = tx / dist * speed;
     const targetDy = ty / dist * speed;
