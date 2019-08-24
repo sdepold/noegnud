@@ -10,6 +10,7 @@ export default class Player extends Base {
   constructor(game, controller) {
     super();
 
+    this.healthPoints = this.baseHealth = this.level * 100;
     this.game = game;
     this.controller = controller;
     this.y = 100;
@@ -22,6 +23,7 @@ export default class Player extends Base {
     this.skills = generateSkills(5);
     this.weapons = [new Weapon(this)];
     this.target = null;
+    this.damage = 50;
 
     this.skills.forEach(skill => skill.effect(this));
   }
@@ -98,12 +100,29 @@ export default class Player extends Base {
       });
 
       this.playerSprite = kontra.Sprite({
+        entity: this,
         type: "player",
         x: 10,
         y: this.y - this.size,
         height: 52,
         width: 32,
-        animations: spriteSheet.animations
+        animations: spriteSheet.animations,
+        direction: 'left'/*,
+        render() {
+          this.context.save();
+
+          if (this.direction === 'left') {
+            // this.context.translate(
+            //   this.x + this.width / 2,
+            //   this.y + this.height / 2
+            // );
+            this.context.scale(-1, 1);
+          }
+
+          this.__proto__.render.call(this);
+          this.context.restore();
+
+        }*/
       });
 
       addShadow(this.playerSprite);

@@ -1,9 +1,9 @@
 import kontra from "kontra";
 
 import Player from "./entities/player";
-import Monster, {skullMask} from "./entities/monster";
+import { skullFace } from "./entities/monster";
 import Game from "./game";
-import { setCanvasSize, log } from "./misc/helper";
+import { setCanvasSize, log, collides } from "./misc/helper";
 import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
@@ -28,9 +28,9 @@ import ProgressBar from "./progress-bar";
     game.remove(progressBar);
     game.add(level, 0);
     game.add(player);
-    game.add(skullMask());
-    // game.add(new Monster());
-    // game.add(new Monster());
+    game.add(skullFace());
+    game.add(skullFace());
+    game.add(skullFace());
   });
 
   kontra.init();
@@ -41,17 +41,13 @@ import ProgressBar from "./progress-bar";
     update() {
       const sprites = game.getSprites(layerId => layerId !== "0");
       const monsters = sprites.filter(s => s.type === "monster");
+      const playerSprite = sprites.filter(s => s.type === "player")[0];
 
       sprites.forEach(sprite => {
         if (sprite.type === "weapon") {
           monsters.forEach(monster => {
-            const dx = monster.x - sprite.x;
-            const dy = monster.y - sprite.y;
-            const collision =
-              Math.sqrt(dx * dx + dy * dy) < monster.width + sprite.width - 20;
-
-            if (collision) {
-              monster.entity.healthPoints -= 100;
+            if (collides(monster, sprite)) {
+              monster.entity.healthPoints -= player.damage;
               if (monster.entity.healthPoints <= 0) {
                 monster.ttl = 0;
                 player.resetTarget();
@@ -59,6 +55,15 @@ import ProgressBar from "./progress-bar";
               sprite.ttl = 0;
             }
           });
+        } else if (
+          sprite.type === "monsterWeapon" && collides(playerSprite, sprite)
+        ) {
+          player.healthPoints -= sprite.monster.damage;
+
+          if (player.healthPoints <= 0) {
+            playerSprite.ttl = 0;
+          }
+          sprite.ttl = 0;
         }
 
         sprite.update();

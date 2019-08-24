@@ -10,18 +10,22 @@ const setPlayerTarget = player => {
 };
 
 export function addKeyboardControls(player) {
-  const originalUpdate = player.playerSprite.update;
-
   player.playerSprite.update = function() {
     this.prevX = this.x;
     this.prevY = this.y;
-
-    originalUpdate.call(this);
 
     const axis = player.controller.getAxis();
 
     this.dx = axis.x * 2;
     this.dy = axis.y * 2;
+
+    if (this.dx < 0) {
+      this.direction = 'left';
+    } else if (this.dx > 0) {
+      this.direction = 'right';
+    }
+
+    this.advance();
 
     if (player.isMoving) {
       player.primaryWeapon && player.primaryWeapon.syncPosition(this);

@@ -1,5 +1,4 @@
 import kontra from "kontra";
-import { radiansToDegrees } from "../../misc/helper";
 
 export default class Weapon {
   constructor(player) {
@@ -12,8 +11,8 @@ export default class Weapon {
     const sprite = this.getSprites();
 
     if (!this.animate) {
-      sprite.x = x + 15;
-      sprite.y = y + 35;
+      sprite.x = x + 35;
+      sprite.y = y + 25;
     }
   }
 
@@ -42,7 +41,7 @@ export default class Weapon {
         height: 38,
         width: 16,
         animations: spriteSheet.animations,
-        anchor: { x: 0, y: 1 },
+        anchor: { x: 0.5, y: 0.5 },
         rotation: 0,
         rotationDelta: player.swordSpeed,
         update() {

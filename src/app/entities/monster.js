@@ -5,11 +5,14 @@ import Base from "./base";
 
 export default class Monster extends Base {
   constructor(
-    { level = 10, attack = () => {}, shouldAttack = () => false } = {}
+    { level = 10, attack = () => {}, shouldAttack = () => false, baseHealth, damage } = {}
   ) {
     super({ level });
+
+    this.healthPoints = this.baseHealth = baseHealth;
     this.attack = attack;
     this.shouldAttack = shouldAttack;
+    this.damage = damage;
   }
 
   getSprites() {
@@ -75,7 +78,7 @@ export default class Monster extends Base {
   }
 }
 
-export const skullMask = () => {
+export const skullFace = () => {
   const weaponSheet = kontra.SpriteSheet({
     image: document.querySelector("#weapons"),
     frameWidth: 8,
@@ -89,32 +92,57 @@ export const skullMask = () => {
   });
 
   return new Monster({
+    baseHealth: 500,
+    damage: 100,
     shouldAttack: monster => {
       const result = monster.attackAt && monster.attackAt < ~~new Date();
 
       if (!monster.attackAt || monster.attackAt < ~~new Date()) {
-        monster.attackAt = ~~new Date() + 100;
+        monster.attackAt = ~~new Date() + 5000;
       }
 
       return result;
     },
+
     attack: (monster, sprite) => {
+      const weaponDefaults = {
+        monster,
+        type: "monsterWeapon",
+        x: sprite.x - 5,
+        y: sprite.y + sprite.height / 2 + 10,
+        dx: -2,
+        height: 19,
+        width: 8,
+        animations: weaponSheet.animations,
+        anchor: { x: 0.5, y: 0.5 },
+        rotation: 0,
+        rotationDelta: 1,
+        update() {
+          this.advance();
+          this.rotation = this.rotation + 0.3;
+        }
+      };
+
+      monster.weapons.push(kontra.Sprite({ ...weaponDefaults }));
+      monster.weapons.push(
+        kontra.Sprite({ ...weaponDefaults, dx: 2, x: sprite.x + sprite.width })
+      );
       monster.weapons.push(
         kontra.Sprite({
-          type: "monsterWeapon",
-          x: sprite.x,
-          y: sprite.y,
-          dx: -2,
-          height: 19,
-          width: 8,
-          animations: weaponSheet.animations,
-          // anchor: { x: 0, y: 1 },
-          rotation: 0,
-          rotationDelta: 1,
-          update() {
-            this.advance();
-            this.rotation = this.rotation + 0.3;
-          }
+          ...weaponDefaults,
+          dx: 0,
+          dy: -2,
+          x: sprite.x + sprite.width / 2 - 5,
+          y: sprite.y + 10
+        })
+      );
+      monster.weapons.push(
+        kontra.Sprite({
+          ...weaponDefaults,
+          dx: 0,
+          dy: 2,
+          x: sprite.x + sprite.width / 2 - 5,
+          y: sprite.y + sprite.height + 5
         })
       );
     }
