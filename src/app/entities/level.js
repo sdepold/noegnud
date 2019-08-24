@@ -7,9 +7,9 @@ const renderedTileSize = 32;
 export default class Level {
   constructor(width, height) {
     this.height = ~~(height / renderedTileSize);
-    this.width = ~~(width / renderedTileSize)-1;
+    this.width = ~~(width / renderedTileSize) - 1;
     this.tilesGround = this.generateGround();
-    this.tilesWalls = this.generateWalls()
+    this.tilesWalls = this.generateDecor();
   }
 
   getSprites() {
@@ -22,7 +22,7 @@ export default class Level {
         tileheight: tileSize,
 
         // map size in tiles
-        width: this.width+1,
+        width: this.width + 1,
         height: this.height,
 
         // tileset object
@@ -78,7 +78,7 @@ export default class Level {
           }
         } else if (y === this.height - 2) {
           tiles.push(floorTileFrame);
-        } else if (y === this.height-1) {
+        } else if (y === this.height - 1) {
           if (x === 0) {
             tiles.push(4);
           } else if (x === this.width) {
@@ -95,7 +95,7 @@ export default class Level {
     return tiles;
   }
 
-  generateWalls() {
+  generateDecor() {
     let tiles = [];
 
     for (let y = 0; y < this.height; y++) {
@@ -112,15 +112,15 @@ export default class Level {
           } else {
             tiles.push(14);
           }
-        } else if (y === this.height-1) {
-          tiles.push(0)
+        } else if (y === this.height - 1) {
+          tiles.push(0);
         } else {
           if (x === 0) {
             tiles.push(11);
           } else if (x === this.width) {
             tiles.push(12);
           } else {
-            tiles.push(0)
+            tiles.push(Math.random() < 0.01 ? 18 : 0);
           }
         }
       }
