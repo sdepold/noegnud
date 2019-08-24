@@ -18,15 +18,17 @@ export function log(s) {
   }
 }
 
-export function setCanvasSize() {
+export function setCanvasSize(givenWidth, givenHeight) {
   const canvas = document.querySelector("#canvas");
   const dimensions = {
     width: window.innerWidth,
     height: window.innerHeight
   };
 
-  canvas.width = dimensions.width;
-  canvas.height = dimensions.height;
+  canvas.width = givenWidth || dimensions.width;
+  canvas.height = givenHeight || dimensions.height;
+  canvas.style.marginLeft = `${~~((dimensions.width - canvas.width) / 2)}px`;
+  canvas.style.marginTop = `${~~((dimensions.height - canvas.height) / 2)}px`;
 
   return dimensions;
 }

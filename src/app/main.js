@@ -21,8 +21,12 @@ import ProgressBar from "./progress-bar";
   let player;
   const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
     player = new Player(game, controller);
+    const level = new Level(width, height);
+    const tileEngine = level.getSprites()[0];
+    setCanvasSize(tileEngine.mapwidth, tileEngine.mapheight);
+
     game.remove(progressBar);
-    game.add(new Level(width, height), 0);
+    game.add(level, 0);
     game.add(player);
     game.add(new Monster());
     game.add(new Monster());
