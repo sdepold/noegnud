@@ -44,7 +44,7 @@ import ProgressBar from "./progress-bar";
       const playerSprite = sprites.filter(s => s.type === "player")[0];
 
       sprites.forEach(sprite => {
-        if (sprite.type === "weapon") {
+        if (sprite.type === "weapon" && sprite.entity.animate) {
           monsters.forEach(monster => {
             if (collides(monster, sprite)) {
               monster.entity.healthPoints -= player.damage;
