@@ -63,6 +63,7 @@ export default class Player extends Base {
   }
 
   hit() {
+    // return;
     if (this.primaryWeapon && this.target) {
       this.primaryWeapon.throw({ x: this.target.x, y: this.target.y });
       setTimeout(() => {
@@ -95,6 +96,10 @@ export default class Player extends Base {
           walk: {
             frames: "0..3",
             frameRate: 8
+          },
+          ouch: {
+            frames: "4..4",
+            frameRate: 1
           }
         }
       });

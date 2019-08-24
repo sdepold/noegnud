@@ -1,6 +1,19 @@
 export function addHealth(entity, sprite, _adjustments) {
+  const originalUpdate = sprite.update.bind(sprite);
   const originalRender = sprite.render.bind(sprite);
   const adjustments = { x: 0, y: 0, ..._adjustments };
+
+  sprite.update = function() {
+    if (entity.prevHealth && entity.prevHealth !== entity.health) {
+      this.playAnimation("ouch");
+      setTimeout(() => {
+        this.playAnimation("walk");
+      }, 500);
+    }
+    entity.prevHealth = entity.health;
+
+    originalUpdate();
+  }.bind(sprite);
 
   sprite.render = function() {
     if (entity.health < 100) {

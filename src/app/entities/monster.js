@@ -5,7 +5,13 @@ import Base from "./base";
 
 export default class Monster extends Base {
   constructor(
-    { level = 10, attack = () => {}, shouldAttack = () => false, baseHealth, damage } = {}
+    {
+      level = 10,
+      attack = () => {},
+      shouldAttack = () => false,
+      baseHealth,
+      damage
+    } = {}
   ) {
     super({ level });
 
@@ -30,17 +36,23 @@ export default class Monster extends Base {
         frameHeight: 26,
         animations: {
           walk: {
-            frames: "9..12",
+            frames: "5..8",
             frameRate: 8
+          },
+          ouch: {
+            frames: "9..9",
+            frameRate: 1
           }
         }
       });
 
+      const canvas = kontra.getCanvas();
+
       this.sprite = kontra.Sprite({
         entity: this,
         type: "monster",
-        x: 100,
-        y: 100,
+        x: Math.random() * (canvas.width - 30),
+        y: Math.random() * (canvas.height - 30),
         dx: Math.random() * 3 - 2,
         dy: Math.random() * 3 - 2,
         height: 52,

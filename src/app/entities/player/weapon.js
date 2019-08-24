@@ -34,6 +34,7 @@ export default class Weapon {
       });
 
       this.sprite = kontra.Sprite({
+        entity: weapon,
         type: "weapon",
         x: 40,
         y: 50,
