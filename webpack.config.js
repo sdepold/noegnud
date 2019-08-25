@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
+const ImageminPlugin = require("imagemin-webpack-plugin").default;
 const isProduction = process.env.npm_lifecycle_event === "build";
 
 module.exports = {
@@ -22,10 +22,10 @@ module.exports = {
       {
         test: /\.(html)$/,
         use: {
-          loader: 'html-loader'
+          loader: "html-loader"
         }
       },
-      { test: /\.gif$/, use: [ "file-loader" ] },
+      { test: /\.gif$/, use: ["file-loader"] }
     ]
   },
   plugins: [
@@ -37,6 +37,10 @@ module.exports = {
       inlineSource: isProduction && "\.(js|css)$"
     }),
     new HtmlWebpackInlineSourcePlugin(),
+    new ImageminPlugin({
+      test: "dist/*.gif",
+      gifsicle: { optimizationLevel: 3 }
+    }),
     new OptimizeCssAssetsPlugin({}),
     new MiniCssExtractPlugin({
       filename: "[name].css"

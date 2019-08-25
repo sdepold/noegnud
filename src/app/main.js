@@ -1,12 +1,13 @@
 import kontra from "kontra";
 
 import Player from "./entities/player";
-import { skullFace } from "./entities/monster";
+import skullFace from "./entities/monster/skull-face";
 import Game from "./game";
 import { setCanvasSize, log, collides } from "./misc/helper";
 import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
+import devil from "./entities/monster/devil";
 
 (() => {
   const { width, height } = setCanvasSize();
@@ -18,7 +19,7 @@ import ProgressBar from "./progress-bar";
     "track-color": "#72d6ce99",
     "track-stroke-color": "#222222"
   });
-  let player;
+  let player, observeMonsters;
   const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
     player = new Player(game, controller);
     const level = new Level(width, height);
@@ -28,9 +29,12 @@ import ProgressBar from "./progress-bar";
     game.remove(progressBar);
     game.add(level, 0);
     game.add(player);
-    game.add(skullFace());
-    game.add(skullFace());
-    game.add(skullFace());
+    game.add(skullFace(player));
+    game.add(skullFace(player));
+    game.add(skullFace(player));
+    game.add(devil(player));
+
+    observeMonsters = true;
   });
 
   kontra.init();
@@ -42,6 +46,11 @@ import ProgressBar from "./progress-bar";
       const sprites = game.getSprites(layerId => layerId !== "0");
       const monsters = sprites.filter(s => s.type === "monster");
       const playerSprite = sprites.filter(s => s.type === "player")[0];
+
+      if (observeMonsters && monsters.length === 0) {
+        loop.stop();
+        return;
+      }
 
       sprites.forEach(sprite => {
         if (sprite.type === "weapon" && sprite.entity.animate) {

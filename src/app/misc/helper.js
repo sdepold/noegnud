@@ -18,6 +18,19 @@ export function log(s) {
   }
 }
 
+export function getDirection(speed, source, target) {
+  const tx = target.x + source.width / 2 - (source.x + source.width / 2);
+  const ty = target.y + source.height / 2 - (source.y + source.height / 2);
+  const dist = Math.sqrt(tx * tx + ty * ty);
+
+
+  return {
+    dx: tx / dist * speed,
+    dy: ty / dist * speed,
+    angle: Math.atan2(ty, tx)
+  };
+}
+
 export function setCanvasSize(givenWidth, givenHeight) {
   const canvas = document.querySelector("#canvas");
   const dimensions = {

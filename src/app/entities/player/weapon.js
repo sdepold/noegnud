@@ -1,4 +1,5 @@
 import kontra from "kontra";
+import { getDirection } from "../../misc/helper";
 
 export default class Weapon {
   constructor(player) {
@@ -59,22 +60,10 @@ export default class Weapon {
   }
 
   throw(target) {
-    const speed = 5;
+    const {dx, dy} = getDirection(5, this.sprite, target);
 
-    const tx =
-      target.x +
-      this.sprite.width / 2 -
-      (this.sprite.x + this.sprite.width / 2);
-    const ty =
-      target.y +
-      this.sprite.height / 2 -
-      (this.sprite.y + this.sprite.height / 2);
-    const dist = Math.sqrt(tx * tx + ty * ty);
-    const targetDx = tx / dist * speed;
-    const targetDy = ty / dist * speed;
-
-    this.sprite.dx = targetDx;
-    this.sprite.dy = targetDy;
+    this.sprite.dx = dx;
+    this.sprite.dy = dy;
     this.animate = true;
     this.sprite.ttl = 75;
   }
