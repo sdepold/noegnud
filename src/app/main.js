@@ -3,7 +3,7 @@ import kontra from "kontra";
 import Player from "./entities/player";
 import skullFace from "./entities/monster/skull-face";
 import Game from "./game";
-import { setCanvasSize, log, collides } from "./misc/helper";
+import { setCanvasSize, log, collides, resizeImage } from "./misc/helper";
 import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
@@ -19,15 +19,15 @@ import devil from "./entities/monster/devil";
     "track-color": "#72d6ce99",
     "track-stroke-color": "#222222"
   });
-  let player, observeMonsters;
+  let player, observeMonsters, tileEngine;
   const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
     player = new Player(game, controller);
     const level = new Level(width, height);
-    const tileEngine = level.getSprites()[0];
+    tileEngine = level.getSprites()[0];
     setCanvasSize(tileEngine.mapwidth, tileEngine.mapheight);
 
     game.remove(progressBar);
-    game.add(level, 0);
+    // game.add(level, 0);
     game.add(player);
     game.add(skullFace(player));
     game.add(skullFace(player));
@@ -81,6 +81,7 @@ import devil from "./entities/monster/devil";
     render() {
       const sprites = game.getSprites();
 
+      tileEngine && tileEngine.render();
       sprites.forEach(s => s.render());
       controller.draw();
     }

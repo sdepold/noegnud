@@ -51,8 +51,8 @@ export default function devil(player) {
         dx,
         dy,
         rotation: angle + 1.5,
-        height: 19,
-        width: 8,
+        height: 19*2,
+        width: 8*2,
         animations: weaponSheet.animations,
         anchor: { x: 0.5, y: 0.5 }
       }));

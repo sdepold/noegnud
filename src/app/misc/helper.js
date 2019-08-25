@@ -23,7 +23,6 @@ export function getDirection(speed, source, target) {
   const ty = target.y + source.height / 2 - (source.y + source.height / 2);
   const dist = Math.sqrt(tx * tx + ty * ty);
 
-
   return {
     dx: tx / dist * speed,
     dy: ty / dist * speed,

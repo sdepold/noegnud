@@ -109,8 +109,8 @@ export default class Player extends Base {
         type: "player",
         x: 10,
         y: this.y - this.size,
-        height: 52,
         width: 32,
+        height: 52,
         animations: spriteSheet.animations,
         direction: 'left'/*,
         render() {
