@@ -25,22 +25,28 @@ module.exports = {
           loader: "html-loader"
         }
       },
-      { test: /\.gif$/, use: ["file-loader"] }
+      // { test: /\.gif$/, use: ["file-loader"] },
+
+      {
+        test: /\.gif$/,
+        use: 'base64-inline-loader?limit=10000&name=[name].[ext]'
+    }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
       minify: isProduction && {
-        collapseWhitespace: true
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
       },
       inlineSource: isProduction && "\.(js|css)$"
     }),
     new HtmlWebpackInlineSourcePlugin(),
-    new ImageminPlugin({
-      test: "dist/*.gif",
-      gifsicle: { optimizationLevel: 3 }
-    }),
     new OptimizeCssAssetsPlugin({}),
     new MiniCssExtractPlugin({
       filename: "[name].css"

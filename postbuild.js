@@ -38,10 +38,10 @@ archive.append(fs.createReadStream("./dist/index.html"), {
   name: "index.html"
 });
 
-fs.readdirSync("./dist").filter(f => f.endsWith("gif")).forEach(file => {
-  archive.append(fs.createReadStream(`./dist/${file}`), {
-    name: file
-  });
-});
+// fs.readdirSync("./dist").filter(f => f.endsWith("gif")).forEach(file => {
+//   archive.append(fs.createReadStream(`./dist/${file}`), {
+//     name: file
+//   });
+// });
 
 archive.finalize();
