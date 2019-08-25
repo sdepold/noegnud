@@ -44,12 +44,12 @@ export default class Monster extends Base {
       this.sprite = kontra.Sprite({
         entity: this,
         type: "monster",
-        x: Math.random() * (canvas.width - 30),
-        y: Math.random() * (canvas.height - 30),
+        x: Math.random() * (canvas.width / 2 - 30),
+        y: Math.random() * (canvas.height / 2 - 30),
         dx: Math.random() * 3 - 2,
         dy: Math.random() * 3 - 2,
-        height: 52,
-        width: 32,
+        height: 26,
+        width: 16,
         animations: spriteSheet.animations,
 
         update() {
@@ -61,11 +61,11 @@ export default class Monster extends Base {
             this.shadowColor = "rgba(0, 0, 0, 0.5)";
           }
 
-          if (this.x < 10 || this.x > canvas.width - 32) {
+          if (this.x < 10 || this.x > canvas.width/2 - 20) {
             this.dx *= -1;
           }
 
-          if (this.y < 16 || this.y > canvas.height - 82) {
+          if (this.y < 16 || this.y > canvas.height/2 - 44) {
             this.dy *= -1;
           }
 
@@ -75,7 +75,7 @@ export default class Monster extends Base {
         }
       });
 
-      addShadow(this.sprite, { x: -5 });
+      addShadow(this.sprite, { x: -2 });
       addHealth(this, this.sprite, { x: -5, y: 10 });
     }
 

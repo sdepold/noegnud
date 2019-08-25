@@ -12,8 +12,8 @@ export default class Weapon {
     const sprite = this.getSprites();
 
     if (!this.animate) {
-      sprite.x = x + 35;
-      sprite.y = y + 25;
+      sprite.x = x + 20;
+      sprite.y = y + 15;
     }
   }
 
@@ -40,8 +40,8 @@ export default class Weapon {
         x: 40,
         y: 50,
         dx: 0,
-        height: 38,
-        width: 16,
+        height: 19,
+        width: 8,
         animations: spriteSheet.animations,
         anchor: { x: 0.5, y: 0.5 },
         rotation: 0,

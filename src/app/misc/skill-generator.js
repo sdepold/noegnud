@@ -4,9 +4,9 @@ const buffs = [weaponSpeedIncrease, powerIncrease, charSpeedIncrease];
 export default function generateSkills(amount) {
   let skills = [];
 
-  for (let i = 0; i < amount; i++) {
-    skills.push(buffs[~~(Math.random() * buffs.length)]());
-  }
+  // for (let i = 0; i < amount; i++) {
+  //   skills.push(buffs[~~(Math.random() * buffs.length)]());
+  // }
 
   return skills;
 }

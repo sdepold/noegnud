@@ -1,5 +1,3 @@
-import kontra from "kontra";
-
 export default class ProgressBar {
   constructor(assets, callback) {
     this.assets = assets;
@@ -36,36 +34,6 @@ export default class ProgressBar {
   }
 
   getSprites() {
-    const canvas = kontra.getCanvas();
-    const width = ~~(canvas.width * 0.8);
-    const height = 20;
-    const border = 2;
-    const progressWidth = () =>
-      width * (this.loaded.length / this.assets.length) - border * 2;
-
-    if (!this.sprites) {
-      this.sprites = [
-        kontra.Sprite({
-          x: (canvas.width - width) / 2,
-          y: canvas.height / 2 - height / 2,
-          color: "white",
-          width,
-          height
-        }),
-        kontra.Sprite({
-          x: (canvas.width - width) / 2 + border,
-          y: canvas.height / 2 - height / 2 + border,
-          color: "grey",
-          width: progressWidth(),
-          height: height - border * 2,
-          update() {
-            this.advance();
-            this.width = progressWidth();
-          }
-        })
-      ];
-    }
-
-    return this.sprites;
+    return [];
   }
 }

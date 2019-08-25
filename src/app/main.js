@@ -24,7 +24,7 @@ import devil from "./entities/monster/devil";
     player = new Player(game, controller);
     const level = new Level(width, height);
     tileEngine = level.getSprites()[0];
-    setCanvasSize(tileEngine.mapwidth, tileEngine.mapheight);
+    setCanvasSize(tileEngine.mapwidth*2, tileEngine.mapheight*2);
 
     game.remove(progressBar);
     // game.add(level, 0);
@@ -38,7 +38,6 @@ import devil from "./entities/monster/devil";
   });
 
   kontra.init();
-  kontra.initKeys();
   game.add(progressBar);
 
   var loop = kontra.GameLoop({
@@ -47,7 +46,7 @@ import devil from "./entities/monster/devil";
       const monsters = sprites.filter(s => s.type === "monster");
       const playerSprite = sprites.filter(s => s.type === "player")[0];
 
-      if (observeMonsters && monsters.length === 0) {
+      if (observeMonsters && (monsters.length === 0 || player.healthPoints <= 0)) {
         loop.stop();
         return;
       }
@@ -79,11 +78,17 @@ import devil from "./entities/monster/devil";
       });
     },
     render() {
+      const ctx = kontra.getContext();
       const sprites = game.getSprites();
+
+      ctx.save();
+      ctx.scale(2,2);
 
       tileEngine && tileEngine.render();
       sprites.forEach(s => s.render());
       controller.draw();
+
+      ctx.restore();
     }
   });
 
