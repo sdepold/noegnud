@@ -1,4 +1,4 @@
-import kontra from "kontra";
+import { getCanvas } from "kontra/src/core";
 
 const setPlayerTarget = player => {
   const closestMonster = player.game.getClosest(player.playerSprite, "monster");
@@ -40,7 +40,7 @@ export function addKeyboardControls(player) {
 }
 
 export function addMouseControls(player) {
-  const canvas = kontra.getCanvas();
+  const canvas = getCanvas();
   const sprite = player.playerSprite;
 
   canvas.addEventListener("touchstart", e => {

@@ -1,4 +1,5 @@
-import kontra from "kontra";
+import { init, getContext } from "kontra/src/core";
+import GameLoop from "kontra/src/gameLoop";
 
 import Player from "./entities/player";
 import skullFace from "./entities/monster/skull-face";
@@ -37,10 +38,10 @@ import devil from "./entities/monster/devil";
     observeMonsters = true;
   });
 
-  kontra.init();
+  init();
   game.add(progressBar);
 
-  var loop = kontra.GameLoop({
+  var loop = GameLoop({
     update() {
       const sprites = game.getSprites(layerId => layerId !== "0");
       const monsters = sprites.filter(s => s.type === "monster");
@@ -78,7 +79,7 @@ import devil from "./entities/monster/devil";
       });
     },
     render() {
-      const ctx = kontra.getContext();
+      const ctx = getContext();
       const sprites = game.getSprites();
 
       ctx.save();

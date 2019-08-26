@@ -1,9 +1,10 @@
-import kontra from 'kontra';
+import Sprite from 'kontra/src/sprite'
+import SpriteSheet from 'kontra/src/spriteSheet'
 import Monster from '../monster';
 import { getDirection } from '../../misc/helper';
 
 export default function devil(player) {
-  const weaponSheet = kontra.SpriteSheet({
+  const weaponSheet = SpriteSheet({
     image: document.querySelector("#weapons"),
     frameWidth: 8,
     frameHeight: 19,
@@ -43,7 +44,7 @@ export default function devil(player) {
     attack: (monster, sprite) => {
       const {dx, dy, angle} = getDirection(5, monster.sprite, player.playerSprite);
 
-      monster.weapons.push(kontra.Sprite({
+      monster.weapons.push(Sprite({
         monster,
         type: "monsterWeapon",
         x: sprite.x - 5,

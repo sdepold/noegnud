@@ -1,6 +1,6 @@
-import Skill from "../entities/skill";
+// import Skill from "../entities/skill";
 
-const buffs = [weaponSpeedIncrease, powerIncrease, charSpeedIncrease];
+// const buffs = [weaponSpeedIncrease, powerIncrease, charSpeedIncrease];
 export default function generateSkills(amount) {
   let skills = [];
 
@@ -11,20 +11,20 @@ export default function generateSkills(amount) {
   return skills;
 }
 
-function weaponSpeedIncrease() {
-  return new Skill("Speed Increase", "weaponSpeed", player => {
-    player.swordSpeedBuff += 0.02;
-  });
-}
+// function weaponSpeedIncrease() {
+//   return new Skill("Speed Increase", "weaponSpeed", player => {
+//     player.swordSpeedBuff += 0.02;
+//   });
+// }
 
-function powerIncrease() {
-  return new Skill("Power Increase", "power", player => {
-    player.powerBuff += 10;
-  });
-}
+// function powerIncrease() {
+//   return new Skill("Power Increase", "power", player => {
+//     player.powerBuff += 10;
+//   });
+// }
 
-function charSpeedIncrease() {
-  return new Skill("Speed Increase", "charSpeed", player => {
-    player.charSpeedBuff += 5;
-  });
-}
+// function charSpeedIncrease() {
+//   return new Skill("Speed Increase", "charSpeed", player => {
+//     player.charSpeedBuff += 5;
+//   });
+// }

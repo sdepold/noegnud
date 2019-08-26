@@ -1,4 +1,6 @@
-import kontra from "kontra";
+import Sprite from 'kontra/src/sprite'
+import SpriteSheet from 'kontra/src/spriteSheet'
+
 import generateSkills from "../misc/skill-generator";
 import { addKeyboardControls, addMouseControls } from "./player/controls";
 import Weapon from "./player/weapon";
@@ -88,7 +90,7 @@ export default class Player extends Base {
   getPlayerSprite() {
     if (!this.playerSprite) {
       const image = document.querySelector("#chars");
-      const spriteSheet = kontra.SpriteSheet({
+      const spriteSheet = SpriteSheet({
         image: image,
         frameWidth: 16,
         frameHeight: 26,
@@ -104,7 +106,7 @@ export default class Player extends Base {
         }
       });
 
-      this.playerSprite = kontra.Sprite({
+      this.playerSprite = Sprite({
         entity: this,
         type: "player",
         x: 10,

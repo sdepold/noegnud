@@ -1,4 +1,7 @@
-import kontra from "kontra";
+import { getCanvas } from "kontra/src/core";
+import Sprite from 'kontra/src/sprite'
+import SpriteSheet from 'kontra/src/spriteSheet'
+
 import { addShadow } from "../misc/shadow";
 import { addHealth } from "../misc/health";
 import Base from "./base";
@@ -32,16 +35,16 @@ export default class Monster extends Base {
 
     if (!this.sprite) {
       const image = document.querySelector("#chars");
-      const spriteSheet = kontra.SpriteSheet({
+      const spriteSheet = SpriteSheet({
         image: image,
         frameWidth: 16,
         frameHeight: 26,
         animations: this.animations
       });
 
-      const canvas = kontra.getCanvas();
+      const canvas = getCanvas();
 
-      this.sprite = kontra.Sprite({
+      this.sprite = Sprite({
         entity: this,
         type: "monster",
         x: Math.random() * (canvas.width / 2 - 30),

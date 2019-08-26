@@ -1,5 +1,4 @@
-import { SpriteSheet, Sprite, TileEngine } from "kontra";
-import { getImage } from "../misc/helper";
+import TileEngine from "kontra/src/tileEngine";
 
 const tileSize = 16.0;
 const renderedTileSize = 32;

@@ -1,8 +1,9 @@
-import kontra from 'kontra';
+import Sprite from 'kontra/src/sprite'
+import SpriteSheet from 'kontra/src/spriteSheet'
 import Monster from '../monster';
 
 export default function skullFace() {
-  const weaponSheet = kontra.SpriteSheet({
+  const weaponSheet = SpriteSheet({
     image: document.querySelector("#weapons"),
     frameWidth: 8,
     frameHeight: 19,
@@ -58,12 +59,12 @@ export default function skullFace() {
         }
       };
 
-      monster.weapons.push(kontra.Sprite({ ...weaponDefaults }));
+      monster.weapons.push(Sprite({ ...weaponDefaults }));
       monster.weapons.push(
-        kontra.Sprite({ ...weaponDefaults, dx: 2, x: sprite.x + sprite.width })
+        Sprite({ ...weaponDefaults, dx: 2, x: sprite.x + sprite.width })
       );
       monster.weapons.push(
-        kontra.Sprite({
+        Sprite({
           ...weaponDefaults,
           dx: 0,
           dy: -2,
@@ -72,7 +73,7 @@ export default function skullFace() {
         })
       );
       monster.weapons.push(
-        kontra.Sprite({
+        Sprite({
           ...weaponDefaults,
           dx: 0,
           dy: 2,

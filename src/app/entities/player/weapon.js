@@ -1,4 +1,5 @@
-import kontra from "kontra";
+import Sprite from 'kontra/src/sprite'
+import SpriteSheet from 'kontra/src/spriteSheet'
 import { getDirection } from "../../misc/helper";
 
 export default class Weapon {
@@ -22,7 +23,7 @@ export default class Weapon {
       const weapon = this;
       const player = this.player;
 
-      const spriteSheet = kontra.SpriteSheet({
+      const spriteSheet = SpriteSheet({
         image: document.querySelector("#weapons"),
         frameWidth: 8,
         frameHeight: 19,
@@ -34,7 +35,7 @@ export default class Weapon {
         }
       });
 
-      this.sprite = kontra.Sprite({
+      this.sprite = Sprite({
         entity: weapon,
         type: "weapon",
         x: 40,
