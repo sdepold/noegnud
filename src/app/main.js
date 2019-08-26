@@ -28,7 +28,7 @@ import devil from "./entities/monster/devil";
     setCanvasSize(tileEngine.mapwidth*2, tileEngine.mapheight*2);
 
     game.remove(progressBar);
-    // game.add(level, 0);
+    game.add(level, 0);
     game.add(player);
     game.add(skullFace(player));
     game.add(skullFace(player));
@@ -43,7 +43,7 @@ import devil from "./entities/monster/devil";
 
   var loop = GameLoop({
     update() {
-      const sprites = game.getSprites(layerId => layerId !== "0");
+      const sprites = game.getSprites();
       const monsters = sprites.filter(s => s.type === "monster");
       const playerSprite = sprites.filter(s => s.type === "player")[0];
 
@@ -75,7 +75,7 @@ import devil from "./entities/monster/devil";
           sprite.ttl = 0;
         }
 
-        sprite.update();
+        sprite.update && sprite.update();
       });
     },
     render() {
@@ -85,7 +85,6 @@ import devil from "./entities/monster/devil";
       ctx.save();
       ctx.scale(2,2);
 
-      tileEngine && tileEngine.render();
       sprites.forEach(s => s.render());
       controller.draw();
 
