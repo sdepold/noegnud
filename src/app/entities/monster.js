@@ -79,7 +79,7 @@ export default class Monster extends Base {
       });
 
       addShadow(this.sprite, { x: -2 });
-      addHealth(this, this.sprite, { x: -5, y: 10 });
+      addHealth(this, this.sprite, { x: -2, y: 3 });
     }
 
     return this.sprite;
