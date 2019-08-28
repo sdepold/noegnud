@@ -12,17 +12,18 @@ export default class ProgressBar {
       this.loaded.push(asset);
       this.verify();
     };
-    this.assets.forEach((asset, i) => {
-        setTimeout(() => {
-            if (asset.complete) {
-              markLoaded(asset);
-            } else {
-              asset.onload = () => {
-                markLoaded(asset);
-              };
-            }
-        }, i * 100);
-    });
+    setTimeout(()=>this.callback(), 5000);
+    // this.assets.forEach((asset, i) => {
+    //     setTimeout(() => {
+    //         if (asset.complete) {
+    //           markLoaded(asset);
+    //         } else {
+    //           asset.onload = () => {
+    //             markLoaded(asset);
+    //           };
+    //         }
+    //     }, i * 100);
+    // });
   }
 
   verify() {
