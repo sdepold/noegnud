@@ -37,10 +37,12 @@ export default class Game {
       return getDistance(source, a) - getDistance(source, b);
     });
 
-    return {
-      distance: getDistance(source, sortedSprites[0]),
-      sprite: sortedSprites[0]
-    };
+    return (
+      sortedSprites[0] && {
+        distance: getDistance(source, sortedSprites[0]),
+        sprite: sortedSprites[0]
+      }
+    );
   }
 
   findCurrentPlatform(playerX) {

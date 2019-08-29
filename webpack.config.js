@@ -25,12 +25,10 @@ module.exports = {
           loader: "html-loader"
         }
       },
-      // { test: /\.gif$/, use: ["file-loader"] },
-
       {
         test: /\.gif$/,
-        use: 'base64-inline-loader?limit=10000&name=[name].[ext]'
-    }
+        use: "base64-inline-loader?limit=10000&name=[name].[ext]"
+      }
     ]
   },
   plugins: [

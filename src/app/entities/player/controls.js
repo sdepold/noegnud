@@ -3,7 +3,7 @@ import { getCanvas } from "kontra/src/core";
 const setPlayerTarget = player => {
   const closestMonster = player.game.getClosest(player.playerSprite, "monster");
 
-  if (closestMonster.distance) {
+  if (closestMonster && closestMonster.distance) {
     player.setTarget(closestMonster.sprite);
     player.hit();
   }

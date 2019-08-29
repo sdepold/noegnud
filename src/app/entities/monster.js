@@ -48,7 +48,7 @@ export default class Monster extends Base {
         entity: this,
         type: "monster",
         x: Math.random() * (canvas.width / 2 - 30),
-        y: Math.random() * (canvas.height / 2 - 30),
+        y: Math.min(50, Math.random() * (canvas.height / 2 - 30)),
         dx: Math.random() * 3 - 2,
         dy: Math.random() * 3 - 2,
         height: 26,

@@ -1,5 +1,6 @@
-import Sprite from 'kontra/src/sprite'
-import SpriteSheet from 'kontra/src/spriteSheet'
+import { getCanvas } from "kontra/src/core";
+import Sprite from "kontra/src/sprite";
+import SpriteSheet from "kontra/src/spriteSheet";
 
 import generateSkills from "../misc/skill-generator";
 import { addKeyboardControls, addMouseControls } from "./player/controls";
@@ -12,11 +13,12 @@ export default class Player extends Base {
   constructor(game, controller) {
     super();
 
+    const canvas = getCanvas();
+
     this.healthPoints = this.baseHealth = this.level * 100;
     this.game = game;
     this.controller = controller;
-    this.y = 100;
-    this.size = 52;
+    this.y = ~~(canvas.height / 2 * 0.75);
     this._power = 10;
     this.powerBuff = 0;
     this._swordSpeed = 0.3;
@@ -89,6 +91,7 @@ export default class Player extends Base {
 
   getPlayerSprite() {
     if (!this.playerSprite) {
+      const canvas = getCanvas();
       const image = document.querySelector("#chars");
       const spriteSheet = SpriteSheet({
         image: image,
@@ -109,12 +112,12 @@ export default class Player extends Base {
       this.playerSprite = Sprite({
         entity: this,
         type: "player",
-        x: 10,
-        y: this.y - this.size,
+        x: canvas.width / 4 - 16,
+        y: this.y,
         width: 16,
         height: 26,
         animations: spriteSheet.animations,
-        direction: 'left'/*,
+        direction: "left" /*,
         render() {
           this.context.save();
 
