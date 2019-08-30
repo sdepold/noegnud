@@ -81,7 +81,8 @@ export default function skullFace() {
           y: sprite.y + sprite.height + 5
         })
       );
-      // zzfx(1,.1,1216,.4,.08,4.3,2.4,.7,.02);
+
+      zzfx(1,.1,1216,.4,.08,4.3,2.4,.7,.02);
     }
   });
 }

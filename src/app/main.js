@@ -30,7 +30,7 @@ import Ladder from "./entities/ladder";
     game.loaded = true;
     game.remove(progressBar);
     game.add(level, 0);
-    game.add(player, 1);
+    game.add(player, 2);
     game.add(level.getMonsters(player));
   });
 
@@ -43,13 +43,15 @@ import Ladder from "./entities/ladder";
       const monsters = sprites.filter(s => s.type === "monster");
       const playerSprite = sprites.filter(s => s.type === "player")[0];
       const canvas = getCanvas();
+      let ladder;
 
       if (
         game.loaded &&
         !monsters.length &&
         !sprites.find(s => s.type === "ladder")
       ) {
-        game.add(new Ladder());
+        ladder = new Ladder();
+        game.add(ladder, 1);
       }
 
       sprites.forEach(sprite => {
@@ -73,12 +75,17 @@ import Ladder from "./entities/ladder";
             playerSprite.ttl = 0;
           }
           sprite.ttl = 0;
-        } else if (sprite.type === "ladder" && collides(playerSprite, sprite)) {
-          playerSprite.x = canvas.width / 4 - 16;
-          playerSprite.y = ~~(canvas.height / 2 * 0.75);
-          level.difficulty--
-          game.layers[10] = [];
-          game.add(level.getMonsters(player));
+        } else if (
+          sprite.type === "ladder" &&
+          collides(playerSprite, sprite) &&
+          !player.climbing
+        ) {
+          player.climb(sprite, () => {
+            level.difficulty--;
+            level.reset();
+            game.layers[1] = game.layers[10] = [];
+            game.add(level.getMonsters(player));
+          });
         }
 
         sprite.update && sprite.update();

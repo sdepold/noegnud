@@ -58,7 +58,7 @@ export default function devil(player) {
         anchor: { x: 0.5, y: 0.5 }
       }));
 
-      // zzfx(1,.1,131,1,.4,0,4.3,0,.05);
+      zzfx(1,.1,131,1,.4,0,4.3,0,.05);
     }
   });
 }

@@ -34,46 +34,50 @@ export default class Level {
     this.height = ~~(height / renderedTileSize) + 1;
     this.width = ~~(width / renderedTileSize) - 1;
     this.difficulty = 10;
-    this.setData();
   }
 
   getMonsters(player) {
     return monstersDifficultyMap[this.difficulty](player);
   }
 
+  reset() {
+    this.setData();
+    this.tileEngine = TileEngine({
+      type: "tile",
+      isAlive: () => true,
+      // tile size
+      tilewidth: tileSize,
+      tileheight: tileSize,
+
+      // map size in tiles
+      width: this.width + 1,
+      height: this.height,
+
+      // tileset object
+      tilesets: [
+        {
+          firstgid: 1,
+          image: document.querySelector("#level")
+        }
+      ],
+
+      // layer object
+      layers: [
+        {
+          name: "ground",
+          data: this.tilesGround
+        },
+        {
+          name: "walls",
+          data: this.tilesWalls
+        }
+      ]
+    });
+  }
+
   getSprites() {
     if (!this.tileEngine) {
-      this.tileEngine = TileEngine({
-        type: "tile",
-        isAlive: () => true,
-        // tile size
-        tilewidth: tileSize,
-        tileheight: tileSize,
-
-        // map size in tiles
-        width: this.width + 1,
-        height: this.height,
-
-        // tileset object
-        tilesets: [
-          {
-            firstgid: 1,
-            image: document.querySelector("#level")
-          }
-        ],
-
-        // layer object
-        layers: [
-          {
-            name: "ground",
-            data: this.tilesGround
-          },
-          {
-            name: "walls",
-            data: this.tilesWalls
-          }
-        ]
-      });
+      this.reset();
     }
 
     return [this.tileEngine];

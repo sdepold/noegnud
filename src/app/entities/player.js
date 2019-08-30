@@ -32,6 +32,32 @@ export default class Player extends Base {
     this.skills.forEach(skill => skill.effect(this));
   }
 
+  climb(ladder, callback) {
+    const originalUpdate = this.playerSprite.update.bind(this.playerSprite);
+    const canvas = getCanvas();
+    const player = this;
+
+    this.climbing = true;
+    this.playerSprite.x = ladder.x - 5;
+    this.playerSprite.y = ladder.y + ladder.height;
+    this.playerSprite.dy = -1;
+    this.playerSprite.dx = 0;
+
+    this.playerSprite.update = function() {
+      this.advance();
+
+      if (this.y < ladder.y - ladder.height - 5) {
+        this.update = originalUpdate;
+        player.climbing = false;
+        this.x = canvas.width / 4 - 16;
+        this.y = ~~(canvas.height / 2 * 0.75);
+        callback();
+      }
+
+      player.primaryWeapon && player.primaryWeapon.syncPosition(this);
+    }.bind(this.playerSprite);
+  }
+
   get isMoving() {
     const sprite = this.getPlayerSprite();
 
