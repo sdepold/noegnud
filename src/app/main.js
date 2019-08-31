@@ -8,6 +8,8 @@ import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
 import Ladder from "./entities/ladder";
+import Intro from "./intro";
+import Text from "./misc/text";
 
 (() => {
   const { width, height } = setCanvasSize();
@@ -31,6 +33,7 @@ import Ladder from "./entities/ladder";
     game.remove(progressBar);
     game.add(level, 0);
     game.add(player, 2);
+    // game.add(new Text("hallo"), 5);
     game.add(level.getMonsters(player));
   });
 

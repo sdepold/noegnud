@@ -3691,10 +3691,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
-kontra@6.2.1:
-  version "6.2.1"
-  resolved "https://registry.npmjs.org/kontra/-/kontra-6.2.1.tgz#861c30270357f3da82371a6d7508bb9a03dafcd2"
-  integrity sha512-Wvps6x9azYRoQbeaGMvnDYKHCSQfS9sWiWjBCgtNjNeThhrCwKK9Nk64GZNeB1DvvFYza2x3rqqZhSjptaTuSQ==
+"kontra@https://github.com/sdepold/kontra.git#patch-1":
+  version "6.4.0"
+  resolved "https://github.com/sdepold/kontra.git#2a5f30dbedce414ddf327820b0f432dbc912df96"
 
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
