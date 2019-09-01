@@ -19,8 +19,8 @@ export function log(s) {
 }
 
 export function getDirection(speed, source, target) {
-  const tx = target.x + source.width / 2 - (source.x + source.width / 2);
-  const ty = target.y + source.height / 2 - (source.y + source.height / 2);
+  const tx = target.x + source.width - (source.x + source.width / 2);
+  const ty = target.y + source.height - (source.y + source.height / 2);
   const dist = Math.sqrt(tx * tx + ty * ty);
 
   return {
