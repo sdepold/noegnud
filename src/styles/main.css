@@ -22,3 +22,12 @@ body {
   position: absolute;
   width: 100%;
 }
+
+#start {
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
