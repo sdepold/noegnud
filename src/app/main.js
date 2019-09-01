@@ -9,29 +9,31 @@ import initGame from "./init";
     var processor = context.createScriptProcessor(1024, 1, 1);
     processor.connect(context.destination);
 
-    var handleSuccess = function (stream) {
+    var handleSuccess = function(stream) {
       var input = context.createMediaStreamSource(stream);
       input.connect(processor);
 
       var recievedAudio = false;
-      processor.onaudioprocess = function (e) {
+      processor.onaudioprocess = function(e) {
         // This will be called multiple times per second.
         // The audio data will be in e.inputBuffer
         if (!recievedAudio) {
           recievedAudio = true;
-          console.log('got audio', e);
+          console.log("got audio", e);
         }
       };
     };
 
-    return navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(handleSuccess);
-  }
+    return navigator.mediaDevices
+      .getUserMedia({ audio: true, video: false })
+      .then(handleSuccess);
+  };
 
   button.addEventListener("click", () => {
     button.remove();
-    initAudio().then(initGame, ()=> {
-        alert('Launching game without audio!')
-        initGame();
+    initAudio().then(initGame, () => {
+      alert("Launching game without audio!");
+      initGame();
     });
   });
 })();

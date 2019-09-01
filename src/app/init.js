@@ -12,7 +12,6 @@ import Intro from "./intro";
 import Text from "./misc/text";
 
 export default function initGame() {
-
   const { width, height } = setCanvasSize();
   const game = new Game();
   const controller = new VirtualStick({
@@ -46,6 +45,7 @@ export default function initGame() {
       const sprites = game.getSprites();
       const monsters = sprites.filter(s => s.type === "monster");
       const playerSprite = sprites.filter(s => s.type === "player")[0];
+      const shields = sprites.filter(s => s.type === "shield");
       const canvas = getCanvas();
       let ladder;
 
@@ -70,15 +70,17 @@ export default function initGame() {
               sprite.ttl = 0;
             }
           });
-        } else if (
-          sprite.type === "monsterWeapon" && collides(playerSprite, sprite)
-        ) {
-          player.healthPoints -= sprite.monster.damage;
+        } else if (sprite.type === "monsterWeapon") {
+          if (collides(playerSprite, sprite)) {
+            player.healthPoints -= sprite.monster.damage;
 
-          if (player.healthPoints <= 0) {
-            playerSprite.ttl = 0;
+            if (player.healthPoints <= 0) {
+              playerSprite.ttl = 0;
+            }
+            sprite.ttl = 0;
+          } else if (shields.find(shield => collides(sprite, shield))) {
+            sprite.ttl = 0;
           }
-          sprite.ttl = 0;
         } else if (
           sprite.type === "ladder" &&
           collides(playerSprite, sprite) &&

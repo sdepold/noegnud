@@ -2,7 +2,7 @@ import { getCanvas } from "kontra/src/core";
 import Sprite from "kontra/src/sprite";
 import SpriteSheet from "kontra/src/spriteSheet";
 
-import generateSkills from "../misc/skill-generator";
+import { getSkills } from "./skill";
 import { addKeyboardControls, addMouseControls } from "./player/controls";
 import Weapon from "./player/weapon";
 import { addShadow } from "../misc/shadow";
@@ -24,12 +24,12 @@ export default class Player extends Base {
     this._swordSpeed = 0.3;
     this.swordSpeedBuff = 0;
     this.charSpeedBuff = 0;
-    this.skills = generateSkills(5);
+    this.skills = getSkills(this, 1);
     this.weapons = [new Weapon(this)];
     this.target = null;
     this.damage = 50;
 
-    this.skills.forEach(skill => skill.effect(this));
+    // this.skills.forEach(skill => skill.effect(this));
   }
 
   climb(ladder, callback) {
@@ -76,16 +76,16 @@ export default class Player extends Base {
   }
 
   getSprites() {
-    const skillSprites = this.skills.reduce((acc, skill, i) => {
-      const skillSprite = skill.getSprites()[0];
+    // const skillSprites = this.skills.reduce((acc, skill, i) => {
+    //   const skillSprite = skill.getSprites()[0];
 
-      skillSprite.x = (i + 1) * (skillSprite.width + 10) - 30;
+    //   skillSprite.x = (i + 1) * (skillSprite.width + 10) - 30;
 
-      return acc.concat(skillSprite);
-    }, []);
+    //   return acc.concat(skillSprite);
+    // }, []);
     const weaponSprites = this.weapons.flatMap(weapon => weapon.getSprites());
 
-    const allSprites = skillSprites
+    const allSprites = this.skills
       .concat(this.getPlayerSprite())
       .concat(weaponSprites);
 

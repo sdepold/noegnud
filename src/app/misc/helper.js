@@ -1,3 +1,9 @@
+export function wrap(originalFun, newFun, context) {
+  return function() {
+    newFun(originalFun);
+  };
+}
+
 export function getImage(url) {
   return new Promise(resolve => {
     let image = new Image();
