@@ -29,6 +29,9 @@ import initGame from "./init";
 
   button.addEventListener("click", () => {
     button.remove();
-    initAudio().then(initGame);
+    initAudio().then(initGame, ()=> {
+        alert('Launching game without audio!')
+        initGame();
+    });
   });
 })();
