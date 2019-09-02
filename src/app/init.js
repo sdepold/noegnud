@@ -101,13 +101,13 @@ export default function initGame() {
       const ctx = getContext();
       const sprites = game.getSprites();
 
-      ctx.save();
-      ctx.scale(2, 2);
-
-      sprites.forEach(s => s.render());
+      sprites.forEach(s => {
+        ctx.save();
+        ctx.scale(2, 2);
+        s.render();
+        ctx.restore();
+      });
       controller.draw();
-
-      ctx.restore();
     }
   });
 
