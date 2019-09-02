@@ -24,7 +24,7 @@ export default class Player extends Base {
     this._swordSpeed = 0.3;
     this.swordSpeedBuff = 0;
     this.charSpeedBuff = 0;
-    this.skills = getSkills(this, 1);
+    this.skills = getSkills(this, 4);
     this.weapons = [new Weapon(this)];
     this.target = null;
     this.damage = 50;
@@ -85,7 +85,7 @@ export default class Player extends Base {
     // }, []);
     const weaponSprites = this.weapons.flatMap(weapon => weapon.getSprites());
 
-    const allSprites = this.skills
+    const allSprites = this.skills.filter(s => !!s)
       .concat(this.getPlayerSprite())
       .concat(weaponSprites);
 
@@ -93,7 +93,6 @@ export default class Player extends Base {
   }
 
   hit() {
-    // return;
     if (this.primaryWeapon && this.target) {
       this.primaryWeapon.throw({ x: this.target.x, y: this.target.y });
       setTimeout(() => {

@@ -1,6 +1,7 @@
 import shield from './shield';
+import backAttack from './back-attack';
 
-const availableSkills = [shield];
+const availableSkills = [shield, backAttack];
 
 export function getSkills(player, amount) {
     let skills = [];
