@@ -26,7 +26,12 @@ export default function skillShield(player) {
       }
 
       if (!this.rotation) {
-        this.rotation = ROTATION_MAP[player.skills.findIndex(s => s === this)];
+        this.rotation =
+          ROTATION_MAP[
+            player.skills
+              .filter(s => s && s.type === "shield")
+              .findIndex(s => s === this)
+          ];
       }
 
       this.rotation += 0.02;
@@ -53,3 +58,5 @@ export default function skillShield(player) {
     }
   });
 }
+
+skillShield.type = "shield";

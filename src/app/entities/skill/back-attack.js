@@ -1,3 +1,4 @@
+import Sprite from "kontra/src/sprite";
 import { wrap } from "../../misc/helper";
 import Weapon from "../player/weapon";
 
@@ -13,4 +14,9 @@ export default function skillBackAttach(player) {
       player.weapons.push(backWeapon);
     }
   });
+
+  return Sprite({ type: "skillBackAttach" });
 }
+
+skillBackAttach.limit = 1;
+skillBackAttach.type = "skillBackAttach";

@@ -10,7 +10,7 @@ import { addHealth } from "../misc/health";
 import Base from "./base";
 
 export default class Player extends Base {
-  constructor(game, controller) {
+  constructor(game, controller, skills) {
     super();
 
     const canvas = getCanvas();
@@ -24,12 +24,10 @@ export default class Player extends Base {
     this._swordSpeed = 0.3;
     this.swordSpeedBuff = 0;
     this.charSpeedBuff = 0;
-    this.skills = getSkills(this, 4);
+    this.skills = skills || getSkills(this, 4);
     this.weapons = [new Weapon(this)];
     this.target = null;
     this.damage = 50;
-
-    // this.skills.forEach(skill => skill.effect(this));
   }
 
   climb(ladder, callback) {
@@ -76,16 +74,13 @@ export default class Player extends Base {
   }
 
   getSprites() {
-    // const skillSprites = this.skills.reduce((acc, skill, i) => {
-    //   const skillSprite = skill.getSprites()[0];
-
-    //   skillSprite.x = (i + 1) * (skillSprite.width + 10) - 30;
-
-    //   return acc.concat(skillSprite);
-    // }, []);
     const weaponSprites = this.weapons.flatMap(weapon => weapon.getSprites());
+    const skillSprites = this.skills.flatMap(
+      skill => (skill.getSprites ? skill.getSprites() : skill)
+    );
 
-    const allSprites = this.skills.filter(s => !!s)
+    const allSprites = skillSprites
+      .filter(s => !!s)
       .concat(this.getPlayerSprite())
       .concat(weaponSprites);
 
@@ -94,6 +89,7 @@ export default class Player extends Base {
 
   hit() {
     if (this.primaryWeapon && this.target) {
+      this.onHit && this.onHit();
       this.primaryWeapon.throw({ x: this.target.x, y: this.target.y });
       setTimeout(() => {
         this.weapons.push(new Weapon(this));
