@@ -30,9 +30,9 @@ export default class Player extends Base {
     this.damage = 50;
   }
 
-  climb(ladder, callback) {
-    const originalUpdate = this.playerSprite.update.bind(this.playerSprite);
-    const canvas = getCanvas();
+  climb(ladder) {
+    this.originalUpdate = this.playerSprite.update.bind(this.playerSprite);
+
     const player = this;
 
     this.climbing = true;
@@ -45,15 +45,20 @@ export default class Player extends Base {
       this.advance();
 
       if (this.y < ladder.y - ladder.height - 5) {
-        this.update = originalUpdate;
-        player.climbing = false;
-        this.x = canvas.width / 4 - 16;
-        this.y = ~~(canvas.height / 2 * 0.75);
-        callback();
+        this.dy = 0;
       }
 
       player.primaryWeapon && player.primaryWeapon.syncPosition(this);
     }.bind(this.playerSprite);
+  }
+
+  resetClimb() {
+    const canvas = getCanvas();
+
+    this.climbing = false;
+    this.playerSprite.update = this.originalUpdate;
+    this.playerSprite.x = canvas.width / 4 - 16;
+    this.playerSprite.y = ~~(canvas.height / 2 * 0.75);
   }
 
   get isMoving() {

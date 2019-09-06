@@ -11,7 +11,11 @@ export function getSkills(player, amount) {
     !skill.limit || skill.limit > skills.filter(s => s.type === skill.type);
 
   for (let i = 0; i < amount; i++) {
-    skills.push(getSkill(validation)(player));
+    const skill = getSkill(validation);
+    const sprite = skill(player);
+
+    sprite.title = skill.title;
+    skills.push(sprite);
   }
 
   function getSkill(validation) {

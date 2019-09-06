@@ -47,5 +47,6 @@ function syncPosition(shadowSprite, playerSprite) {
   shadowSprite.y = playerSprite.y;
 }
 
+skillShadow.title = "Shadow";
 skillShadow.type = "shadow";
 skillShadow.limit = 1;

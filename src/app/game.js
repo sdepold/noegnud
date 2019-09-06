@@ -14,11 +14,13 @@ export default class Game {
 
   getSprites(layerFilter = () => true) {
     const layerIds = Object.keys(this.layers).sort().filter(layerFilter);
-    const sprites = layerIds.flatMap(layerId => {
-      const layer = this.layers[layerId];
+    const sprites = layerIds
+      .sort((a, b) => parseInt(a) - parseInt(b))
+      .flatMap(layerId => {
+        const layer = this.layers[layerId];
 
-      return layer.flatMap(o => o.getSprites());
-    });
+        return layer.flatMap(o => o.getSprites());
+      });
 
     return sprites.flat().filter(s => s.isAlive());
   }

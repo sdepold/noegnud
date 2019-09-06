@@ -20,3 +20,4 @@ export default function skillBackAttach(player) {
 
 skillBackAttach.limit = 1;
 skillBackAttach.type = "skillBackAttach";
+skillBackAttach.title = "Backwards Attack"

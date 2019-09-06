@@ -10,6 +10,7 @@ import ProgressBar from "./progress-bar";
 import Ladder from "./entities/ladder";
 import Intro from "./intro";
 import Text from "./misc/text";
+import PauseScreen from "./pause-screen";
 
 export default function initGame() {
   const { width, height } = setCanvasSize();
@@ -21,11 +22,12 @@ export default function initGame() {
     "track-color": "#72d6ce99",
     "track-stroke-color": "#222222"
   });
-  let player, tileEngine, level;
+  let player, tileEngine, level, pauseScreen;
   const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
     player = new Player(game, controller);
     level = new Level(width, height);
     tileEngine = level.getSprites()[0];
+    pauseScreen = new PauseScreen(player, level, controller);
 
     setCanvasSize(tileEngine.mapwidth * 2, tileEngine.mapheight * 2);
 
@@ -33,8 +35,8 @@ export default function initGame() {
     game.remove(progressBar);
     game.add(level, 0);
     game.add(player, 2);
-    // game.add(new Text("hallo"), 5);
     game.add(level.getMonsters(player));
+    game.add(pauseScreen, 11);
   });
 
   init();
@@ -86,7 +88,11 @@ export default function initGame() {
           collides(playerSprite, sprite) &&
           !player.climbing
         ) {
-          player.climb(sprite, () => {
+          player.climb(sprite);
+          document.querySelector("#controller").id = "controller-disabled";
+          pauseScreen.show(() => {
+            document.querySelector("#controller-disabled").id = "controller";
+            player.resetClimb();
             level.difficulty--;
             level.reset();
             game.layers[1] = game.layers[10] = [];

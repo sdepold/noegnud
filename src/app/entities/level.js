@@ -7,7 +7,7 @@ const renderedTileSize = 32;
 
 const monstersDifficultyMap = {
   "10": player => [
-    skullFace(player),
+    // skullFace(player),
     // skullFace(player),
     // skullFace(player),
     // devil(player)

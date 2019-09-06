@@ -59,4 +59,5 @@ export default function skillShield(player) {
   });
 }
 
+skillShield.title = "Shield";
 skillShield.type = "shield";
