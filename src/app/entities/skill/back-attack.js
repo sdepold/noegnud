@@ -3,9 +3,11 @@ import { wrap } from "../../misc/helper";
 import Weapon from "../player/weapon";
 
 export default function skillBackAttach(player) {
-  player.hit = wrap(player.hit, originalFun => {
+  const originalHit = player.hit.bind(player);
+
+  player.hit = () => {
     if (player.primaryWeapon && player.target) {
-      originalFun.call(player);
+      originalHit();
 
       const backWeapon = new Weapon(player);
       backWeapon.throw({ x: player.target.x, y: player.target.y });
@@ -13,9 +15,15 @@ export default function skillBackAttach(player) {
       backWeapon.sprite.dy *= -1;
       player.weapons.push(backWeapon);
     }
-  });
+  };
 
-  return Sprite({ type: "skillBackAttach" });
+  const result = Sprite({ type: "skillBackAttach" });
+
+  result.undo = () => {
+    player.hit = originalHit;
+  };
+
+  return result;
 }
 
 skillBackAttach.limit = 1;

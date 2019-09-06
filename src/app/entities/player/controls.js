@@ -21,12 +21,6 @@ export function addKeyboardControls(player) {
     this.dx = axis.x * 2;
     this.dy = axis.y * 2;
 
-    if (this.dx < 0) {
-      this.direction = 'left';
-    } else if (this.dx > 0) {
-      this.direction = 'right';
-    }
-
     originalUpdate();
 
     if (player.isMoving) {
@@ -35,7 +29,6 @@ export function addKeyboardControls(player) {
     } else {
       setPlayerTarget(player);
     }
-
   }.bind(player.playerSprite);
 }
 

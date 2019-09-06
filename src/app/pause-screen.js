@@ -37,6 +37,7 @@ export default class PauseScreen {
         );
         const skill = line && this.player.skills.find(s => formatSkill(s) === line.text)
         if (skill) {
+          skill.undo && skill.undo();
           this.player.skills = this.player.skills.filter(s => s !== skill);
           this.showing = false;
           this.onDone();

@@ -30,6 +30,7 @@ export default function skillShadow(player) {
       }.bind(shadow.primaryWeapon.sprite);
     }
 
+    this.dx = playerSprite.dx;
     this.x = playerSprite.x + 40;
     this.y = playerSprite.y + 40;
   }.bind(shadowSprite);
@@ -43,8 +44,10 @@ export default function skillShadow(player) {
 }
 
 function syncPosition(shadowSprite, playerSprite) {
+  shadowSprite.prevX = shadowSprite.x;
   shadowSprite.x = playerSprite.x;
   shadowSprite.y = playerSprite.y;
+  console.log(shadowSprite.width, playerSprite.width)
 }
 
 skillShadow.title = "Shadow";

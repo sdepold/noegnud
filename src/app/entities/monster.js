@@ -54,6 +54,19 @@ export default class Monster extends Base {
         height: 26,
         width: 16,
         animations: spriteSheet.animations,
+        direction: 'right',
+
+        render(){
+          if (this.dx < 0 && this.direction === "right") {
+            this.width = -16;
+            this.direction = "left";
+          } else if (this.dx > 0 && this.direction === "left") {
+            this.width = 16;
+            this.direction = "right";
+          }
+
+          this.draw();
+        },
 
         update() {
           this.advance();

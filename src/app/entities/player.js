@@ -143,22 +143,18 @@ export default class Player extends Base {
         width: 16,
         height: 26,
         animations: spriteSheet.animations,
-        direction: "left" /*,
+        direction: "right",
         render() {
-          this.context.save();
-
-          if (this.direction === 'left') {
-            // this.context.translate(
-            //   this.x + this.width / 2,
-            //   this.y + this.height / 2
-            // );
-            this.context.scale(-1, 1);
+          if (this.dx < 0 && this.direction === "right") {
+            this.width = -16;
+            this.direction = "left";
+          } else if (this.dx > 0 && this.direction === "left") {
+            this.width = 16;
+            this.direction = "right";
           }
 
-          this.__proto__.render.call(this);
-          this.context.restore();
-
-        }*/
+          this.draw();
+        }
       });
 
       addShadow(this.playerSprite);
