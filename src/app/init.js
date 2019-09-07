@@ -11,6 +11,7 @@ import Ladder from "./entities/ladder";
 import Intro from "./intro";
 import Text from "./misc/text";
 import PauseScreen from "./pause-screen";
+import EndScreen from "./end-screen";
 
 export default function initGame() {
   const { width, height } = setCanvasSize();
@@ -91,6 +92,11 @@ export default function initGame() {
             ) {
               monster.lastCollisionAt = new Date();
               player.healthPoints -= monster.entity.damage;
+
+              if (player.healthPoints <= 0) {
+                playerSprite.ttl = 0;
+                game.add(new EndScreen(), 11);
+              }
             }
           });
         } else if (
