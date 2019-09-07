@@ -1,6 +1,7 @@
-import Sprite from 'kontra/src/sprite'
-import SpriteSheet from 'kontra/src/spriteSheet'
+import Sprite from "kontra/src/sprite";
+import SpriteSheet from "kontra/src/spriteSheet";
 import { getDirection } from "../../misc/helper";
+import { getCanvas } from "kontra/src/core";
 
 export default class Weapon {
   constructor(player) {
@@ -35,6 +36,8 @@ export default class Weapon {
         }
       });
 
+      const canvas = getCanvas();
+
       this.sprite = Sprite({
         entity: weapon,
         type: "weapon",
@@ -51,6 +54,14 @@ export default class Weapon {
           this.advance();
 
           if (weapon.animate) {
+            if (
+              this.x < 6 ||
+              this.x > canvas.width / 2 - 20 ||
+              this.y < 16 ||
+              this.y > canvas.height / 2 - 48
+            ) {
+              this.ttl = 0;
+            }
             this.rotation = this.rotation + player.swordSpeed;
           }
         }
@@ -61,7 +72,7 @@ export default class Weapon {
   }
 
   throw(target) {
-    const {dx, dy} = getDirection(5, this.sprite, target);
+    const { dx, dy } = getDirection(5, this.sprite, target);
 
     this.sprite.dx = dx;
     this.sprite.dy = dy;

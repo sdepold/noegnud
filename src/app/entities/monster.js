@@ -77,11 +77,11 @@ export default class Monster extends Base {
             this.shadowColor = "rgba(0, 0, 0, 0.5)";
           }
 
-          if (this.x < 10 || this.x > canvas.width/2 - 20) {
+          if (this.x < 6 || this.x > canvas.width/2 - 20) {
             this.dx *= -1;
           }
 
-          if (this.y < 16 || this.y > canvas.height/2 - 44) {
+          if (this.y < 16 || this.y > canvas.height/2 - 48) {
             this.dy *= -1;
           }
 

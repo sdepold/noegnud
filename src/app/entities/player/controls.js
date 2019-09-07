@@ -11,6 +11,7 @@ const setPlayerTarget = player => {
 
 export function addKeyboardControls(player) {
   const originalUpdate = player.playerSprite.update.bind(player.playerSprite);
+  const canvas = getCanvas();
 
   player.playerSprite.update = function() {
     this.prevX = this.x;
@@ -20,6 +21,20 @@ export function addKeyboardControls(player) {
 
     this.dx = axis.x * 2;
     this.dy = axis.y * 2;
+
+    if (
+      (this.x < 6 && this.dx < 0) ||
+      (this.x > canvas.width / 2 - 20 && this.dx > 0)
+    ) {
+      this.dx = 0;
+    }
+
+    if (
+      (this.y < 16 && this.dy < 0) ||
+      (this.y > canvas.height / 2 - 48 && this.dy > 0)
+    ) {
+      this.dy = 0;
+    }
 
     originalUpdate();
 
