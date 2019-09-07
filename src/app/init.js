@@ -83,6 +83,16 @@ export default function initGame() {
           } else if (shields.find(shield => collides(sprite, shield))) {
             sprite.ttl = 0;
           }
+        } else if (sprite === playerSprite) {
+          monsters.forEach(monster => {
+            if (
+              collides(monster, sprite) &&
+              new Date() - (monster.lastCollisionAt || 0) > 1000
+            ) {
+              monster.lastCollisionAt = new Date();
+              player.healthPoints -= monster.entity.damage;
+            }
+          });
         } else if (
           sprite.type === "ladder" &&
           collides(playerSprite, sprite) &&
