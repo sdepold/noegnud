@@ -9,8 +9,7 @@ import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
 import Ladder from "./entities/ladder";
-import EndScreen from "./end-screen";
-import SplashScreen, { getPauseScreen } from "./splash-screen";
+import SplashScreen, { getPauseScreen, getEndScreen } from "./splash-screen";
 
 const { width, height } = setCanvasSize();
 const game = new Game();
@@ -57,9 +56,7 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
           ctx.fillText(text, this.width / 4, line.y);
         };
       })(),
-      function(ctx, canvas) {
-        ctx.fillText("Touch to start!", this.width / 4, canvas.height / 2 - 30);
-      }
+      ["Touch to start!", { footer: true, fontSize: 10 }]
     ],
     () => {
       const initGame = () => {
@@ -134,7 +131,7 @@ var loop = GameLoop({
 
             if (player.healthPoints <= 0) {
               playerSprite.ttl = 0;
-              game.add(new EndScreen(), 11);
+              game.add(getEndScreen(player), 11);
             }
           }
         });

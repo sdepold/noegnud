@@ -53,13 +53,17 @@ export default class SplashScreen {
             : splashScreen.content;
 
           splashScreen.lines = content.map((line, i) => {
-            const y = 50 + i * splashScreen.options.lineHeight;
+            let y = 50 + i * splashScreen.options.lineHeight;
 
             if (typeof line === "function") {
               return { y, text: line, options: {} };
             } else {
               const text = [line].flat()[0];
               const options = [line].flat()[1] || {};
+
+              if (options.footer) {
+                y = canvas.height / 2 - 30;
+              }
 
               return { y, text, options };
             }
@@ -119,7 +123,9 @@ export function getPauseScreen(player, level, onClick) {
     `🔪 ${player.damage}`,
     "",
     ["Player skills", { underline: true }]
-  ].concat(player.skills.map(s => s.title));
+  ]
+    .concat(player.skills.map(s => s.title))
+    .concat([["Select skill and resume run!", { footer: true }]]);
 
   return new SplashScreen(messages, line => {
     const skill = line && player.skills.find(s => s.title === line.text);
@@ -130,4 +136,18 @@ export function getPauseScreen(player, level, onClick) {
       onClick();
     }
   });
+}
+
+export function getEndScreen() {
+  return new SplashScreen(
+    [
+      "Oh noez :(",
+      "",
+      ["You died!", { fontSize: 20 }],
+      ["Press to restart!", { footer: true }]
+    ],
+    () => {
+      document.location.reload();
+    }
+  );
 }
