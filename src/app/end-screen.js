@@ -8,8 +8,19 @@ export default class PauseScreen {
     this.controller = controller;
   }
 
+  hide() {
+    document.querySelector("#controller-disabled").id = "controller";
+    this.hide = true;
+  }
+
   getSprites() {
+    if (this.hide) {
+      return [];
+    }
+
     if (!this.sprite) {
+      document.querySelector("#controller").id = "controller-disabled";
+
       const canvas = getCanvas();
       this.sprite = Sprite({
         x: 0,
