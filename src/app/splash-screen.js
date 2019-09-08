@@ -115,17 +115,18 @@ export default class SplashScreen {
 }
 
 export function getPauseScreen(player, level, onClick) {
+  const shadow = player.skills.find(s => s.type === "shadow");
   const messages = [
     [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
     "",
     ["Current player stats", { underline: true }],
     `❤ ${player.healthPoints} / ${player.baseHealth}`,
-    `🔪 ${player.damage}`,
+    `🔪 ${player.damage}` + (shadow ? ` + ${shadow.damage}` : ""),
     "",
     ["Player skills", { underline: true }]
   ]
     .concat(player.skills.map(s => s.title))
-    .concat([["Select skill and resume run!", { footer: true }]]);
+    .concat([["Remove skill and resume run!", { footer: true }]]);
 
   return new SplashScreen(messages, line => {
     const skill = line && player.skills.find(s => s.title === line.text);
