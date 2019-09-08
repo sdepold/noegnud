@@ -13,6 +13,11 @@ export default class SplashScreen {
   hide() {
     document.querySelector("#controller-disabled").id = "controller";
     this._hide = true;
+    canvas.removeEventListener("click", this.onCanvasClick);
+  }
+
+  get hidden() {
+    return this._hide;
   }
 
   getSprites() {
@@ -26,13 +31,15 @@ export default class SplashScreen {
 
       document.querySelector("#controller").id = "controller-disabled";
 
-      canvas.addEventListener("click", e => {
+      this.onCanvasClick = e => {
         const clickY = e.clientY / 2 + splashScreen.options.lineHeight;
         const line = this.lines.find(
           l => l.y < clickY && l.y + splashScreen.options.lineHeight > clickY
         );
         this.onClick(line, e);
-      });
+      };
+
+      canvas.addEventListener("click", this.onCanvasClick);
 
       this.sprite = Sprite({
         x: 0,
@@ -45,24 +52,49 @@ export default class SplashScreen {
             ? splashScreen.content()
             : splashScreen.content;
 
-          splashScreen.lines = content.map((line, i) => ({
-            y: 50 + i * splashScreen.options.lineHeight,
-            text: line
-          }));
+          splashScreen.lines = content.map((line, i) => {
+            const y = 50 + i * splashScreen.options.lineHeight;
+
+            if (typeof line === "function") {
+              return { y, text: line, options: {} };
+            } else {
+              const text = [line].flat()[0];
+              const options = [line].flat()[1] || {};
+
+              return { y, text, options };
+            }
+          });
 
           this.context.save();
           this.context.globalAlpha = this.opacity;
           this.context.fillStyle = "black";
           this.context.fillRect(this.x, this.y, this.width, this.height);
-          this.context.font = `${splashScreen.options.fontSize}px Marker Felt`;
-          this.context.fillStyle = "white";
-          this.context.textAlign = "center";
 
-          splashScreen.lines.forEach(line => {
-            typeof line.text === "function"
-              ? line.text.call(this, this.context, canvas, line)
-              : this.context.fillText(line.text, this.width / 4, line.y);
+          splashScreen.lines.forEach(({ y, text, options = {} }) => {
+            const fontSize = options.fontSize || splashScreen.options.fontSize;
+
+            this.context.font = `${fontSize}px Marker Felt`;
+            this.context.fillStyle = options.color || "white";
+            this.context.textAlign = options.textAlign || "center";
+
+            if (typeof text === "function") {
+              text.call(this, this.context, canvas, { y });
+            } else {
+              this.context.fillText(text, this.width / 4, y);
+
+              if (options.underline) {
+                const textWidth = this.context.measureText(text).width;
+
+                this.context.fillRect(
+                  this.width / 4 - textWidth / 2,
+                  y + 2,
+                  textWidth,
+                  2
+                );
+              }
+            }
           });
+
           this.context.restore();
         },
         update() {
@@ -76,4 +108,26 @@ export default class SplashScreen {
 
     return [this.sprite];
   }
+}
+
+export function getPauseScreen(player, level, onClick) {
+  const messages = [
+    [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
+    "",
+    ["Current player stats", { underline: true }],
+    `❤ ${player.healthPoints} / ${player.baseHealth}`,
+    `🔪 ${player.damage}`,
+    "",
+    ["Player skills", { underline: true }]
+  ].concat(player.skills.map(s => s.title));
+
+  return new SplashScreen(messages, line => {
+    const skill = line && player.skills.find(s => s.title === line.text);
+
+    if (skill) {
+      skill.undo && skill.undo();
+      player.skills = player.skills.filter(s => s !== skill);
+      onClick();
+    }
+  });
 }

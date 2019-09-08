@@ -1,4 +1,4 @@
-import { init, getContext, getCanvas } from "kontra/src/core";
+import { init, getContext } from "kontra/src/core";
 import GameLoop from "kontra/src/gameLoop";
 
 import { initAudio } from "./audio";
@@ -9,11 +9,8 @@ import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
 import Ladder from "./entities/ladder";
-import Intro from "./intro";
-import Text from "./misc/text";
-import PauseScreen from "./pause-screen";
 import EndScreen from "./end-screen";
-import SplashScreen from "./splash-screen";
+import SplashScreen, { getPauseScreen } from "./splash-screen";
 
 const { width, height } = setCanvasSize();
 const game = new Game();
@@ -24,20 +21,18 @@ const controller = new VirtualStick({
   "track-color": "#72d6ce99",
   "track-stroke-color": "#222222"
 });
-let player, tileEngine, level, pauseScreen;
+let player, tileEngine, level, startScreen;
 const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
   player = new Player(game, controller);
   level = new Level(width, height);
   tileEngine = level.getSprites()[0];
-  pauseScreen = new PauseScreen(player, level, controller);
 
   setCanvasSize(tileEngine.mapwidth * 2, tileEngine.mapheight * 2);
   game.loaded = true;
   game.remove(progressBar);
 
-  const startScreen = new SplashScreen(
+  startScreen = new SplashScreen(
     [
-      "",
       "Welcome to the",
       (() => {
         let text = "NOEGNUD";
@@ -70,7 +65,6 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
       const initGame = () => {
         startScreen.hide();
         game.add(level.getMonsters(player));
-        game.add(pauseScreen, 11);
       };
       initAudio().then(initGame, initGame);
     },
@@ -97,7 +91,10 @@ var loop = GameLoop({
     let ladder;
 
     if (
-      game.loaded && !monsters.length && !sprites.find(s => s.type === "ladder")
+      game.loaded &&
+      startScreen.hidden &&
+      !monsters.length &&
+      !sprites.find(s => s.type === "ladder")
     ) {
       ladder = new Ladder();
       game.add(ladder, 1);
@@ -147,15 +144,17 @@ var loop = GameLoop({
         !player.climbing
       ) {
         player.climb(sprite);
-        document.querySelector("#controller").id = "controller-disabled";
-        pauseScreen.show(() => {
-          document.querySelector("#controller-disabled").id = "controller";
+
+        const pauseScreen = getPauseScreen(player, level, () => {
+          pauseScreen.hide();
           player.resetClimb();
           level.difficulty--;
           level.reset();
           game.layers[1] = game.layers[10] = [];
           game.add(level.getMonsters(player));
         });
+
+        game.add(pauseScreen);
       }
 
       sprite.update && sprite.update();
