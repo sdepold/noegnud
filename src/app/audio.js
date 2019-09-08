@@ -8,13 +8,13 @@ export function initAudio() {
       var input = context.createMediaStreamSource(stream);
       input.connect(processor);
 
-      var recievedAudio = false;
+      var receivedAudio = false;
       processor.onaudioprocess = function(e) {
         // This will be called multiple times per second.
         // The audio data will be in e.inputBuffer
-        if (!recievedAudio) {
-          recievedAudio = true;
-          console.log("got audio", e);
+        if (!receivedAudio) {
+          receivedAudio = true;
+          console.log("Received audio", e);
         }
       };
     };

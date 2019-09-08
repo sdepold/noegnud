@@ -9,7 +9,7 @@ export default class Ladder {
       this.ladder = Sprite({
         type: "ladder",
         color: "RGBA(182, 156, 138, 1.00)",
-        x: Math.random() * width,
+        x: 30 + Math.random() * width - 60,
         y: 18,
         height: 2,
         width: 6,

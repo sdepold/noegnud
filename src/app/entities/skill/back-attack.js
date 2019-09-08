@@ -1,5 +1,4 @@
 import Sprite from "kontra/src/sprite";
-import { wrap } from "../../misc/helper";
 import Weapon from "../player/weapon";
 
 export default function skillBackAttach(player) {
