@@ -307,6 +307,15 @@ acorn@^6.2.1:
   resolved "https://registry.npmjs.org/acorn/-/acorn-6.3.0.tgz#0087509119ffa4fc0a0041d1e93a417e68cb856e"
   integrity sha512-/czfa8BwS88b9gWQVhc8eknunSA2DoJpJyTQkhheIf5E48u1N0R4q/YxxsAeqRrmK9TQ/uYfgLDfZo91UlANIA==
 
+advzip-bin@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/advzip-bin/-/advzip-bin-1.1.0.tgz#4c46360c836e85ec0bef29f142f8a189dd35836a"
+  integrity sha512-yUMqE51RGQ2mUP5+Dgp8dyRD4w6V71sSnaMqnNSiB76SYU/qzEO1ExoXnBSX3I1wzbQ/AC2KUk2GaX8bOXc1dw==
+  dependencies:
+    bin-build "^3.0.0"
+    bin-wrapper "^4.1.0"
+    logalot "^2.0.0"
+
 ajv-errors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
@@ -654,7 +663,7 @@ bin-version@^3.0.0:
     execa "^1.0.0"
     find-versions "^3.0.0"
 
-bin-wrapper@^4.0.0, bin-wrapper@^4.0.1:
+bin-wrapper@^4.0.0, bin-wrapper@^4.0.1, bin-wrapper@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/bin-wrapper/-/bin-wrapper-4.1.0.tgz#99348f2cf85031e3ef7efce7e5300aeaae960605"
   integrity sha512-hfRmo7hWIXPkbpi0ZltboCMVrU+0ClXR/JgbCKKjlDjQf6igXa7OwdqNcFWQZPZTgiY7ZpzE3+LjjkLiTN2T7Q==

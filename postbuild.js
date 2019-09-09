@@ -1,10 +1,13 @@
 const fs = require("fs");
 const archiver = require("archiver");
+const {execFile} = require('child_process');
+const advzip = require('advzip-bin');
 
 fs.unlinkSync("./dist/main.js");
 fs.unlinkSync("./dist/main.css");
 
-let output = fs.createWriteStream("./dist/build.zip");
+const zipDist = "./dist/build.zip";
+let output = fs.createWriteStream(zipDist);
 let archive = archiver("zip", {
   zlib: { level: 9 } // set compression to best
 });
@@ -12,13 +15,24 @@ let archive = archiver("zip", {
 const MAX = 13 * 1024; // 13kb
 
 output.on("close", function() {
-  const bytes = archive.pointer();
-  const percent = (bytes / MAX * 100).toFixed(2);
-  if (bytes > MAX) {
-    console.error(`Size overflow: ${bytes} bytes (${percent}%)`);
-  } else {
-    console.log(`Size: ${bytes} bytes (${percent}%)`);
-  }
+  let bytes = archive.pointer();
+  let percent = (bytes / MAX * 100).toFixed(2);
+
+  console.log(`Normal zip size: ${bytes} bytes (${percent}%)`);
+
+  execFile(advzip, ['--recompress', '--shrink-insane', '-i 20', zipDist], err => {
+    const stats = fs.statSync(zipDist);
+    bytes = stats.size;
+    percent = (bytes / MAX * 100).toFixed(2);
+
+    if (bytes > MAX) {
+      console.error(`AdvZip size overflow: ${bytes} bytes (${percent}%)`);
+    } else {
+      console.log(`AdvZip size: ${bytes} bytes (${percent}%)`);
+    }
+
+});
+
 });
 
 archive.on("warning", function(err) {

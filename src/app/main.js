@@ -10,6 +10,7 @@ import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
 import Ladder from "./entities/ladder";
 import SplashScreen, { getPauseScreen, getEndScreen } from "./splash-screen";
+import TombStone from "./tombstone";
 
 const { width, height } = setCanvasSize();
 const game = new Game();
@@ -87,6 +88,20 @@ var loop = GameLoop({
     const shields = sprites.filter(s => s.type === "shield");
     let ladder;
 
+    function hurtPlayer(player, enemy, sprites) {
+      player.healthPoints -= enemy.damage;
+
+      if (player.healthPoints <= 0) {
+        sprites
+          .filter(s =>
+            ["player", "shadow", "weapon", "shield"].includes(s.type)
+          )
+          .forEach(s => s.ttl = 0);
+        game.add(new TombStone(playerSprite));
+        game.add(getEndScreen(player), 11);
+      }
+    }
+
     if (
       game.loaded &&
       startScreen.hidden &&
@@ -104,6 +119,7 @@ var loop = GameLoop({
             monster.entity.healthPoints -= player.damage;
             if (monster.entity.healthPoints <= 0) {
               monster.ttl = 0;
+              game.add(new TombStone(monster));
               player.resetTarget();
             }
             sprite.ttl = 0;
@@ -111,11 +127,8 @@ var loop = GameLoop({
         });
       } else if (sprite.type === "monsterWeapon") {
         if (collides(playerSprite, sprite)) {
-          player.healthPoints -= sprite.monster.damage;
+          hurtPlayer(player, sprite.monster, sprites);
 
-          if (player.healthPoints <= 0) {
-            playerSprite.ttl = 0;
-          }
           sprite.ttl = 0;
         } else if (shields.find(shield => collides(sprite, shield))) {
           sprite.ttl = 0;
@@ -127,12 +140,7 @@ var loop = GameLoop({
             new Date() - (monster.lastCollisionAt || 0) > 1000
           ) {
             monster.lastCollisionAt = new Date();
-            player.healthPoints -= monster.entity.damage;
-
-            if (player.healthPoints <= 0) {
-              playerSprite.ttl = 0;
-              game.add(getEndScreen(player), 11);
-            }
+            hurtPlayer(player, monster.entity, sprites);
           }
         });
       } else if (
