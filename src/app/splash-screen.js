@@ -115,7 +115,10 @@ export default class SplashScreen {
 }
 
 export function getPauseScreen(player, level, onClick) {
+  const needSkillRemoval = level.difficulty % 2 === 1;
   const shadow = player.skills.find(s => s.type === "shadow");
+  const removalMessage = "Remove skill and resume run!";
+  const keepMessage = "You can keep all skills this round!";
   const messages = [
     [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
     "",
@@ -126,10 +129,16 @@ export function getPauseScreen(player, level, onClick) {
     ["Player skills", { underline: true }]
   ]
     .concat(player.skills.map(s => s.title))
-    .concat([["Remove skill and resume run!", { footer: true }]]);
+    .concat([
+      [needSkillRemoval ? removalMessage : keepMessage, { footer: true }]
+    ]);
 
   return new SplashScreen(messages, line => {
     const skill = line && player.skills.find(s => s.title === line.text);
+
+    if (!needSkillRemoval) {
+      return onClick();
+    }
 
     if (skill) {
       skill.undo && skill.undo();
@@ -151,4 +160,10 @@ export function getEndScreen() {
       document.location.reload();
     }
   );
+}
+
+export function getWinnerScreen() {
+  return new SplashScreen(["Woop! You won!"], () => {
+    document.location.reload();
+  });
 }

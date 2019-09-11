@@ -9,7 +9,11 @@ import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
 import Ladder from "./entities/ladder";
-import SplashScreen, { getPauseScreen, getEndScreen } from "./splash-screen";
+import SplashScreen, {
+  getPauseScreen,
+  getEndScreen,
+  getWinnerScreen
+} from "./splash-screen";
 import TombStone from "./tombstone";
 
 const { width, height } = setCanvasSize();
@@ -150,16 +154,22 @@ var loop = GameLoop({
       ) {
         player.climb(sprite);
 
-        const pauseScreen = getPauseScreen(player, level, () => {
-          pauseScreen.hide();
-          player.resetClimb();
-          level.difficulty--;
-          level.reset();
-          game.layers[1] = game.layers[10] = [];
-          game.add(level.getMonsters(player));
-        });
+        let screen;
 
-        game.add(pauseScreen);
+        if (level.difficulty === 1) {
+          screen = getWinnerScreen();
+        } else {
+          screen = getPauseScreen(player, level, () => {
+            screen.hide();
+            player.resetClimb();
+            level.difficulty--;
+            level.reset();
+            game.layers[1] = game.layers[10] = [];
+            game.add(level.getMonsters(player));
+          });
+        }
+
+        game.add(screen);
       }
 
       sprite.update && sprite.update();
