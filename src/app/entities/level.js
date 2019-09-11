@@ -1,25 +1,30 @@
 import TileEngine from "kontra/src/tileEngine";
 import devil from "./monster/devil";
 import skullFace from "./monster/skull-face";
+import seedy from "./monster/seedy";
 
 const tileSize = 16.0;
 const renderedTileSize = 32;
-
 const monstersDifficultyMap = {
   "10": player => [
+    seedy(player),
+    seedy(player),
     skullFace(player),
-    // skullFace(player),
-    // skullFace(player),
-    // devil(player)
+    skullFace(player),
+    devil(player)
   ],
   "9": player => [
-    skullFace(player),
-    skullFace(player),
+    seedy(player),
+    seedy(player),
+    seedy(player),
     skullFace(player),
     skullFace(player),
     skullFace(player)
   ],
-  "8": player => [devil(player), devil(player)],
+  "8": player => [
+    devil(player), devil(player),
+    seedy(player)
+  ],
   "7": player => [skullFace(player)],
   "6": player => [skullFace(player)],
   "5": player => [skullFace(player)],

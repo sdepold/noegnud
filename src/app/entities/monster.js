@@ -1,6 +1,6 @@
 import { getCanvas } from "kontra/src/core";
-import Sprite from 'kontra/src/sprite'
-import SpriteSheet from 'kontra/src/spriteSheet'
+import Sprite from "kontra/src/sprite";
+import SpriteSheet from "kontra/src/spriteSheet";
 
 import { addShadow } from "../misc/shadow";
 import { addHealth } from "../misc/health";
@@ -14,7 +14,10 @@ export default class Monster extends Base {
       shouldAttack = () => false,
       baseHealth,
       damage,
-      animations
+      animations,
+      dx = Math.random() * 3 - 2,
+      dy = Math.random() * 3 - 2,
+      update = function() {}
     } = {}
   ) {
     super({ level });
@@ -24,6 +27,9 @@ export default class Monster extends Base {
     this.shouldAttack = shouldAttack;
     this.damage = damage;
     this.animations = animations;
+    this.dx = dx;
+    this.dy = dy;
+    this.optionalUpdate = update;
   }
 
   getSprites() {
@@ -47,16 +53,16 @@ export default class Monster extends Base {
       this.sprite = Sprite({
         entity: this,
         type: "monster",
-        x: Math.min(20, Math.random() * (canvas.width / 2 - 30)),
+        x: Math.min(30, Math.random() * (canvas.width / 2 - 30)),
         y: Math.max(30, Math.random() * (canvas.height / 2 - 60)),
-        dx: Math.random() * 3 - 2,
-        dy: Math.random() * 3 - 2,
+        dx: this.dx,
+        dy: this.dy,
         height: 26,
         width: 16,
         animations: spriteSheet.animations,
-        direction: 'right',
+        direction: "right",
 
-        render(){
+        render() {
           if (this.dx < 0 && this.direction === "right") {
             this.width = -16;
             this.direction = "left";
@@ -64,12 +70,14 @@ export default class Monster extends Base {
             this.width = 16;
             this.direction = "right";
           }
-
-          this.draw();
+          if (!this.hidden) {
+            this.draw();
+          }
         },
 
         update() {
           this.advance();
+          monster.optionalUpdate.call(this);
 
           if (this.targeted) {
             this.shadowColor = "rgba(250, 100, 100, 0.7)";
@@ -77,11 +85,11 @@ export default class Monster extends Base {
             this.shadowColor = "rgba(0, 0, 0, 0.5)";
           }
 
-          if (this.x < 6 || this.x > canvas.width/2 - 20) {
+          if (this.x < 6 || this.x > canvas.width / 2 - 20) {
             this.dx *= -1;
           }
 
-          if (this.y < 16 || this.y > canvas.height/2 - 48) {
+          if (this.y < 16 || this.y > canvas.height / 2 - 48) {
             this.dy *= -1;
           }
 
@@ -98,4 +106,3 @@ export default class Monster extends Base {
     return this.sprite;
   }
 }
-

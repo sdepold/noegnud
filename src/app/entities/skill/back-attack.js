@@ -5,7 +5,7 @@ export default function skillBackAttach(player) {
   const originalHit = player.hit.bind(player);
 
   player.hit = () => {
-    if (player.primaryWeapon && player.target) {
+    if (player.primaryWeapon && player.target && !player.target.hidden) {
       originalHit();
 
       const backWeapon = new Weapon(player);

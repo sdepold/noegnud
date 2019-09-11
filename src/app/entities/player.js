@@ -93,7 +93,7 @@ export default class Player extends Base {
   }
 
   hit() {
-    if (this.primaryWeapon && this.target) {
+    if (this.primaryWeapon && this.target && !this.target.hidden) {
       this.onHit && this.onHit();
       this.primaryWeapon.throw({ x: this.target.x, y: this.target.y });
       setTimeout(() => {
