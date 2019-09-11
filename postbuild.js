@@ -1,7 +1,6 @@
 const fs = require("fs");
 const archiver = require("archiver");
-const {execFile} = require('child_process');
-const advzip = require('advzip-bin');
+const { execFile } = require("child_process");
 
 fs.unlinkSync("./dist/main.js");
 fs.unlinkSync("./dist/main.css");
@@ -19,20 +18,17 @@ output.on("close", function() {
   let percent = (bytes / MAX * 100).toFixed(2);
 
   console.log(`Normal zip size: ${bytes} bytes (${percent}%)`);
-
-  execFile(advzip, ['--recompress', '--shrink-insane', '-i 20', zipDist], err => {
+  execFile("./bin/ect", ["-9", "-zip", zipDist], err => {
     const stats = fs.statSync(zipDist);
     bytes = stats.size;
     percent = (bytes / MAX * 100).toFixed(2);
 
     if (bytes > MAX) {
-      console.error(`AdvZip size overflow: ${bytes} bytes (${percent}%)`);
+      console.error(`ect size overflow: ${bytes} bytes (${percent}%)`);
     } else {
-      console.log(`AdvZip size: ${bytes} bytes (${percent}%)`);
+      console.log(`ect size: ${bytes} bytes (${percent}%)`);
     }
-
-});
-
+  });
 });
 
 archive.on("warning", function(err) {

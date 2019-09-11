@@ -3,8 +3,9 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
-    "postbuild": "node postbuild.js"
+    "build": "yarn compress && webpack --mode production",
+    "postbuild": "node postbuild.js",
+    "compress": "bin/ect -9 -strip --allfilters-b -quiet src/assets/*.png"
   },
   "devDependencies": {
     "advzip-bin": "^1.1.0",
