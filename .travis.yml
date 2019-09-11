@@ -1,16 +1,11 @@
 language: node_js
 
+os: osx
+
 node_js:
 - 8
 
 script:
-- git clone https://github.com/fhanau/Efficient-Compression-Tool.git ect
-- cd ect
-- mkdir build
-- cd build
-- cmake ../src
-- make
-- ls
 - yarn
 - yarn build
 
