@@ -41,7 +41,7 @@ export default class Player extends Base {
     this.playerSprite.dy = -1;
     this.playerSprite.dx = 0;
 
-    this.playerSprite.update = function() {
+    this.playerSprite.update = function () {
       this.advance();
 
       if (this.y < ladder.y - ladder.height - 5) {
@@ -95,6 +95,7 @@ export default class Player extends Base {
   hit() {
     if (this.primaryWeapon && this.target && !this.target.hidden) {
       this.onHit && this.onHit();
+      zzfx(.3, .1, 1100, .2, .33, .8, 1.5, 0, .05); // ZzFX 13828
       this.primaryWeapon.throw({ x: this.target.x, y: this.target.y });
       setTimeout(() => {
         this.weapons.push(new Weapon(this));

@@ -9,53 +9,61 @@ const monstersDifficultyMap = {
   //keep all skills
   "10": player => [
     seedy(player),
-    // seedy(player),
-    // skullFace(player),
-    // skullFace(player),
-    // devil(player)
+    skullFace(player),
+    skullFace(player),
+    devil(player)
   ],
   //remove 1 out of 4 skills
   "9": player => [
-    // seedy(player),
-    // seedy(player),
-    // seedy(player),
+    devil(player),
+    devil(player),
     skullFace(player),
-    // skullFace(player),
-    // skullFace(player)
+    skullFace(player)
   ],
   //keep all skills
   "8": player => [
-    // devil(player),
     devil(player),
-    // seedy(player)
+    seedy(player)
   ],
   //remove 1 out of 3 remaining skills
   "7": player => [
-    /*skullFace(player)*/
+    skullFace(player),
+    skullFace(player),
+    skullFace(player),
+    skullFace(player)
   ],
   //keep all skills
   "6": player => [
-    /*skullFace(player)*/
+    seedy(player),
+    seedy(player),
+    skullFace(player),
   ],
   //remove 1 out of 2 remaining skills
   "5": player => [
-    /*skullFace(player)*/
+    skullFace(player),
+    skullFace(player),
+    skullFace(player),
+    skullFace(player),
   ],
   //keep all skills
   "4": player => [
-    /*skullFace(player)*/
+    devil(player),
+    devil(player)
   ],
   //remove 1 out of 1 remaining skills
   "3": player => [
-    /*skullFace(player)*/
+    seedy(player),
+    skullFace(player),
+    skullFace(player)
   ],
   //keep all skills
   "2": player => [
-    /*skullFace(player)*/
+    devil(player)
   ],
   // win the game!
   "1": player => [
-    /*skullFace(player)*/
+    seedy(player),
+    skullFace(player)
   ]
 };
 

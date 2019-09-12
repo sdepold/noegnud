@@ -9,6 +9,7 @@ import Level from "./entities/level";
 import VirtualStick from "virtual-stick";
 import ProgressBar from "./progress-bar";
 import Ladder from "./entities/ladder";
+import Sprite from 'kontra/src/sprite';
 import SplashScreen, {
   getPauseScreen,
   getEndScreen,
@@ -25,6 +26,38 @@ const controller = new VirtualStick({
   "track-color": "#72d6ce99",
   "track-stroke-color": "#222222"
 });
+
+function renderDamage({ x, y }, damage) {
+  const colors = ["#44D9CF", "#30718C", "#EC402B", "#B1CCD0", "#FDE700", "#FF7B00"];
+  const color = colors[~~(Math.random() * colors.length)];
+
+  const sprite = Sprite({
+    x,
+    y,
+    dx: Math.random() * 3 - 1.5,
+    dy: Math.random() * 3 - 1.5,
+    fontSize: 10,
+    opacity: 1,
+    render() {
+      this.context.save()
+      this.context.globalAlpha = this.opacity;
+      this.context.font = `${this.fontSize}px Marker Felt`;
+      this.context.fillStyle = color;
+      this.context.fillText(damage, this.x, this.y);
+      this.context.restore();
+    },
+    update() {
+      this.advance();
+      this.opacity -= 0.01;
+      this.fontSize -= 0.1;
+      if (this.opacity < 0.25) {
+        this.ttl = 0;
+      }
+    }
+  });
+  game.add({ getSprites() { return [sprite] } });
+}
+
 let player, tileEngine, level, startScreen;
 const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
   player = new Player(game, controller);
@@ -43,7 +76,7 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
         let lastShuffle = new Date();
         let delta = 2000;
 
-        return function(ctx, canvas, line) {
+        return function (ctx, canvas, line) {
           if (new Date() - lastShuffle > delta) {
             text = text
               .split("")
@@ -94,6 +127,7 @@ var loop = GameLoop({
 
     function hurtPlayer(player, enemy, sprites) {
       player.healthPoints -= enemy.damage;
+      renderDamage(player, enemy.damage);
 
       if (player.healthPoints <= 0) {
         sprites
@@ -120,7 +154,10 @@ var loop = GameLoop({
       if (sprite.type === "weapon" && sprite.entity.animate) {
         monsters.forEach(monster => {
           if (collides(monster, sprite)) {
+            zzfx(.3, .1, 94, .1, .14, 0, 0, 5, .29); // ZzFX 39966
             monster.entity.healthPoints -= player.damage;
+            renderDamage(monster, player.damage);
+
             if (monster.entity.healthPoints <= 0) {
               monster.ttl = 0;
               game.add(new TombStone(monster));
@@ -136,6 +173,7 @@ var loop = GameLoop({
           sprite.ttl = 0;
         } else if (shields.find(shield => collides(sprite, shield))) {
           sprite.ttl = 0;
+          zzfx(1, .1, 327, .1, .08, 7.4, .2, 5.9, .49); // ZzFX 88235
         }
       } else if (sprite === playerSprite) {
         monsters.forEach(monster => {

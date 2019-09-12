@@ -8,7 +8,7 @@ export default function devil(player) {
 
   return new Monster({
     baseHealth: 1250,
-    damage: 50,
+    damage: 25,
 
     animations: {
       walk: {
@@ -71,7 +71,7 @@ export default function devil(player) {
         })
       );
 
-      zzfx(1, 0.1, 131, 1, 0.4, 0, 4.3, 0, 0.05);
+      zzfx(.5, .1, 1059, .1, .52, 5.4, 1.5, 43.1, .79); // ZzFX 30517
     }
   });
 }
