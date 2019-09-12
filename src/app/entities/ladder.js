@@ -2,20 +2,20 @@ import Sprite from "kontra/src/sprite";
 import { getCanvas } from "kontra/src/core";
 
 export default class Ladder {
-  getSprites() {
+  gS() {
     if (!this.ladder) {
       const width = getCanvas().width / 2;
 
       this.ladder = Sprite({
-        type: "ladder",
-        color: "RGBA(182, 156, 138, 1.00)",
+        type: "l",
+        color: "#b69c8a",
         x: Math.min(30, 60 + Math.random() * width - 60),
         y: 18,
         height: 2,
         width: 6,
         render() {
           this.context.save();
-          this.context.shadowColor = "rgba(0,0,0,1)";
+          this.context.shadowColor = "#000";
           this.context.strokeStyle = this.color;
 
           this.context.beginPath();
@@ -37,7 +37,7 @@ export default class Ladder {
         update() {
           this.advance();
           if (this.height < 19) {
-            this.height += 0.1;
+            this.height += .1;
           }
         }
       });

@@ -8,11 +8,11 @@ export default function skillShadow(player) {
 
   syncPosition(shadowSprite, playerSprite);
 
-  shadow.damage *= 0.25;
-  shadow.type = shadowSprite.type = "shadow";
+  shadow.damage *= .25;
+  shadow.type = shadowSprite.type = "x";
   shadowSprite.render = wrap(shadowSprite.render, render => {
     shadowSprite.context.save();
-    shadowSprite.context.globalAlpha = 0.5;
+    shadowSprite.context.globalAlpha = .5;
     render.call(shadowSprite);
     shadowSprite.context.restore();
   });
@@ -24,7 +24,7 @@ export default function skillShadow(player) {
       shadow.primaryWeapon.syncPosition(this);
       shadow.primaryWeapon.sprite.render = function() {
         this.context.save();
-        this.context.globalAlpha = 0.5;
+        this.context.globalAlpha = .5;
         this.draw();
         this.context.restore();
       }.bind(shadow.primaryWeapon.sprite);
@@ -51,5 +51,5 @@ function syncPosition(shadowSprite, playerSprite) {
 }
 
 skillShadow.title = "Shadow";
-skillShadow.type = "shadow";
+skillShadow.type = "x";
 skillShadow.limit = 1;

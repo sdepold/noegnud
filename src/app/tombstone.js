@@ -8,17 +8,11 @@ export default class TombStone {
     this.object = obj;
   }
 
-  getSprites() {
+  gS() {
     const { x, y } = this.object;
 
     if (!this.sprites) {
-      const text = [
-        LENGTH * Math.min(0.8, Math.random()),
-        LENGTH * Math.min(0.8, Math.random()),
-        LENGTH * Math.min(0.8, Math.random()),
-        LENGTH * Math.min(0.8, Math.random()),
-        LENGTH * Math.min(0.8, Math.random())
-      ];
+      const text = [1,2,3,4,5].map(()=>LENGTH * Math.min(0.8, Math.random()));
 
       this.sprites = Sprite({
         type: "tombstone",

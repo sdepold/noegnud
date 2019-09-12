@@ -51,7 +51,7 @@ export default function devil(player) {
       monster.weapons.push(
         Sprite({
           monster,
-          type: "monsterWeapon",
+          type: "mw",
           x: sprite.x - 5,
           y: sprite.y + sprite.height / 2 + 10,
           dx,
@@ -59,7 +59,7 @@ export default function devil(player) {
           rotation: angle + 1.5,
           height: 19,
           width: 8,
-          anchor: { x: 0.5, y: 0.5 },
+          anchor: { x: .5, y: .5 },
           render() {
             this.context.save();
             this.context.shadowColor = "#000";

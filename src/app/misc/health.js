@@ -24,7 +24,7 @@ export function addHealth(entity, sprite, _adjustments) {
 
       this.context.save();
       this.context.beginPath();
-      this.context.strokeStyle = "rgba(0,0,0,1)";
+      this.context.strokeStyle = "#000";
       this.context.fillStyle = "rgba(100,100,100,0.7)";
       this.context.rect(x, y, width, height);
       this.context.fill();

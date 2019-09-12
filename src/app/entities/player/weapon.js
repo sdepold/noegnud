@@ -11,7 +11,7 @@ export default class Weapon {
   }
 
   syncPosition({ x, y }) {
-    const sprite = this.getSprites();
+    const sprite = this.gS();
 
     if (!this.animate) {
       sprite.x = x + 20;
@@ -19,13 +19,13 @@ export default class Weapon {
     }
   }
 
-  getSprites() {
+  gS() {
     if (!this.sprite) {
       const weapon = this;
       const player = this.player;
 
       const spriteSheet = SpriteSheet({
-        image: document.querySelector("#weapons"),
+        image: document.querySelector("#w"),
         frameWidth: 8,
         frameHeight: 19,
         animations: {
@@ -40,14 +40,14 @@ export default class Weapon {
 
       this.sprite = Sprite({
         entity: weapon,
-        type: "weapon",
+        type: "w",
         x: 40,
         y: 50,
         dx: 0,
         height: 19,
         width: 8,
         animations: spriteSheet.animations,
-        anchor: { x: 0.5, y: 0.5 },
+        anchor: { x: .5, y: .5 },
         rotation: 0,
         rotationDelta: player.swordSpeed,
         update() {

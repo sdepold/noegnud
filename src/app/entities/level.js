@@ -81,7 +81,7 @@ export default class Level {
   reset() {
     this.setData();
     this.tileEngine = TileEngine({
-      type: "tile",
+      type: "t",
       isAlive: () => true,
       // tile size
       tilewidth: tileSize,
@@ -95,7 +95,7 @@ export default class Level {
       tilesets: [
         {
           firstgid: 1,
-          image: document.querySelector("#level")
+          image: document.querySelector("#l")
         }
       ],
 
@@ -113,7 +113,7 @@ export default class Level {
     });
   }
 
-  getSprites() {
+  gS() {
     if (!this.tileEngine) {
       this.reset();
     }
@@ -128,26 +128,26 @@ export default class Level {
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x <= this.width; x++) {
         const floorTileFrame =
-          1 + (Math.random() < 0.2 ? ~~(Math.random() * 3) : 0);
+          1 + (Math.random() < 0.2 ? ~~(Math.random() * 2) : 0);
         const wallTileFrame =
-          1 + (Math.random() < 0.2 ? 15 + ~~Math.random() : 4);
+          1 + (Math.random() < 0.2 ? 14 + ~~Math.random() : 3);
 
         if (y === 0) {
           decorTiles.push(0);
           if (x === 0) {
-            groundTiles.push(13);
+            groundTiles.push(12);
           } else if (x === this.width) {
-            groundTiles.push(14);
-          } else {
             groundTiles.push(13);
+          } else {
+            groundTiles.push(12);
           }
         } else if (y === 1) {
           decorTiles.push(0);
 
           if (x === 0) {
-            groundTiles.push(9);
+            groundTiles.push(8);
           } else if (x === this.width) {
-            groundTiles.push(10);
+            groundTiles.push(9);
           } else {
             groundTiles.push(wallTileFrame);
           }
@@ -155,19 +155,19 @@ export default class Level {
           groundTiles.push(floorTileFrame);
 
           if (x === 0) {
-            decorTiles.push(7);
+            decorTiles.push(6);
           } else if (x === this.width) {
-            decorTiles.push(8);
+            decorTiles.push(7);
           } else {
-            decorTiles.push(14);
+            decorTiles.push(13);
           }
         } else if (y === this.height - 1) {
           decorTiles.push(0);
 
           if (x === 0) {
-            groundTiles.push(4);
+            groundTiles.push(3);
           } else if (x === this.width) {
-            groundTiles.push(6);
+            groundTiles.push(5);
           } else {
             groundTiles.push(wallTileFrame);
           }
@@ -175,11 +175,11 @@ export default class Level {
           groundTiles.push(floorTileFrame);
 
           if (x === 0) {
-            decorTiles.push(11);
+            decorTiles.push(10);
           } else if (x === this.width) {
-            decorTiles.push(12);
+            decorTiles.push(11);
           } else {
-            decorTiles.push(Math.random() < 0.01 ? 18 : 0);
+            decorTiles.push(0);
           }
         }
       }

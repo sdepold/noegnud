@@ -31,7 +31,7 @@ export default class ProgressBar {
     }
   }
 
-  getSprites() {
+  gS() {
     return [];
   }
 }

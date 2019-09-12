@@ -32,7 +32,7 @@ export default class Monster extends Base {
     this.optionalUpdate = update;
   }
 
-  getSprites() {
+  gS() {
     return this.weapons.concat(this.getMonsterSprite());
   }
 
@@ -40,7 +40,7 @@ export default class Monster extends Base {
     const monster = this;
 
     if (!this.sprite) {
-      const image = document.querySelector("#chars");
+      const image = document.querySelector("#c");
       const spriteSheet = SpriteSheet({
         image: image,
         frameWidth: 16,
@@ -52,7 +52,7 @@ export default class Monster extends Base {
 
       this.sprite = Sprite({
         entity: this,
-        type: "monster",
+        type: "m",
         x: Math.min(30, Math.random() * (canvas.width / 2 - 30)),
         y: Math.max(30, Math.random() * (canvas.height / 2 - 60)),
         dx: this.dx,

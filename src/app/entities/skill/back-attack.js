@@ -16,7 +16,7 @@ export default function skillBackAttach(player) {
     }
   };
 
-  const result = Sprite({ type: "skillBackAttach" });
+  const result = Sprite({ type: "sba" });
 
   result.undo = () => {
     player.hit = originalHit;
@@ -26,5 +26,5 @@ export default function skillBackAttach(player) {
 }
 
 skillBackAttach.limit = 1;
-skillBackAttach.type = "skillBackAttach";
+skillBackAttach.type = "sba";
 skillBackAttach.title = "Backwards Attack"

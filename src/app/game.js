@@ -12,14 +12,14 @@ export default class Game {
       .filter(e => e != entity);
   }
 
-  getSprites(layerFilter = () => true) {
+  gS(layerFilter = () => true) {
     const layerIds = Object.keys(this.layers).sort().filter(layerFilter);
     const sprites = layerIds
       .sort((a, b) => parseInt(a) - parseInt(b))
       .flatMap(layerId => {
         const layer = this.layers[layerId];
 
-        return layer.flatMap(o => o.getSprites());
+        return layer.flatMap(o => o.gS());
       });
 
     return sprites.flat().filter(s => s.isAlive());
@@ -29,7 +29,7 @@ export default class Game {
     getClosest(player, 'monster');
   */
   getClosest(source, type) {
-    const sprites = this.getSprites(l => l.type !== "tile");
+    const sprites = this.gS(l => l.type !== "t");
     const spritesOfType = sprites.filter(s => s !== source && s.type === type);
     const getDistance = (a, b) =>
       Math.sqrt(

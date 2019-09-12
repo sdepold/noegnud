@@ -4,7 +4,7 @@ import Monster from '../monster';
 
 export default function skullFace() {
   const weaponSheet = SpriteSheet({
-    image: document.querySelector("#weapons"),
+    image: document.querySelector("#w"),
     frameWidth: 8,
     frameHeight: 19,
     animations: {
@@ -43,19 +43,19 @@ export default function skullFace() {
     attack: (monster, sprite) => {
       const weaponDefaults = {
         monster,
-        type: "monsterWeapon",
+        type: "mw",
         x: sprite.x - 5,
         y: sprite.y + sprite.height / 2 + 10,
         dx: -2,
         height: 10,
         width: 4,
         animations: weaponSheet.animations,
-        anchor: { x: 0.5, y: 0.5 },
+        anchor: { x: .5, y: .5 },
         rotation: 0,
         rotationDelta: 1,
         update() {
           this.advance();
-          this.rotation = this.rotation + 0.3;
+          this.rotation = this.rotation + .3;
         }
       };
 

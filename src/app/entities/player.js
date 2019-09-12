@@ -18,12 +18,8 @@ export default class Player extends Base {
     this.healthPoints = this.baseHealth = this.level * 100;
     this.game = game;
     this.controller = controller;
-    this.y = ~~(canvas.height / 2 * 0.75);
-    this._power = 10;
-    this.powerBuff = 0;
-    this._swordSpeed = 0.3;
-    this.swordSpeedBuff = 0;
-    this.charSpeedBuff = 0;
+    this.y = ~~(canvas.height / 2 * .75);
+    this.swordSpeed = 0.3;
     this.skills = skills || getSkills(this, 4);
     this.weapons = [new Weapon(this)];
     this.target = null;
@@ -35,7 +31,7 @@ export default class Player extends Base {
 
     const player = this;
 
-    this.climbing = true;
+    this._c = true;
     this.playerSprite.x = ladder.x - 5;
     this.playerSprite.y = ladder.y + ladder.height;
     this.playerSprite.dy = -1;
@@ -55,10 +51,10 @@ export default class Player extends Base {
   resetClimb() {
     const canvas = getCanvas();
 
-    this.climbing = false;
+    this._c = false;
     this.playerSprite.update = this.originalUpdate;
     this.playerSprite.x = canvas.width / 4 - 16;
-    this.playerSprite.y = ~~(canvas.height / 2 * 0.75);
+    this.playerSprite.y = ~~(canvas.height / 2 * .75);
   }
 
   get isMoving() {
@@ -70,18 +66,10 @@ export default class Player extends Base {
     );
   }
 
-  get swordSpeed() {
-    return this._swordSpeed + this.swordSpeedBuff;
-  }
-
-  get power() {
-    return this._power + this.powerBuff;
-  }
-
-  getSprites() {
-    const weaponSprites = this.weapons.flatMap(weapon => weapon.getSprites());
+  gS() {
+    const weaponSprites = this.weapons.flatMap(weapon => weapon.gS());
     const skillSprites = this.skills.flatMap(
-      skill => (skill.getSprites ? skill.getSprites() : skill)
+      skill => (skill.gS ? skill.gS() : skill)
     );
 
     const allSprites = skillSprites
@@ -119,7 +107,7 @@ export default class Player extends Base {
   getPlayerSprite() {
     if (!this.playerSprite) {
       const canvas = getCanvas();
-      const image = document.querySelector("#chars");
+      const image = document.querySelector("#c");
       const spriteSheet = SpriteSheet({
         image: image,
         frameWidth: 16,
@@ -138,7 +126,7 @@ export default class Player extends Base {
 
       this.playerSprite = Sprite({
         entity: this,
-        type: "player",
+        type: "p",
         x: canvas.width / 4 - 16,
         y: this.y,
         width: 16,

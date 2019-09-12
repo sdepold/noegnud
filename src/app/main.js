@@ -26,6 +26,7 @@ const controller = new VirtualStick({
   "track-color": "#72d6ce99",
   "track-stroke-color": "#222222"
 });
+const gameTitle = "NOEGNUD";
 
 function renderDamage({ x, y }, damage) {
   const colors = ["#44D9CF", "#30718C", "#EC402B", "#B1CCD0", "#FDE700", "#FF7B00"];
@@ -48,21 +49,21 @@ function renderDamage({ x, y }, damage) {
     },
     update() {
       this.advance();
-      this.opacity -= 0.01;
-      this.fontSize -= 0.1;
-      if (this.opacity < 0.25) {
+      this.opacity -= .01;
+      this.fontSize -= .1;
+      if (this.opacity < .25) {
         this.ttl = 0;
       }
     }
   });
-  game.add({ getSprites() { return [sprite] } });
+  game.add({ gS() { return [sprite] } });
 }
 
 let player, tileEngine, level, startScreen;
 const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
   player = new Player(game, controller);
   level = new Level(width, height);
-  tileEngine = level.getSprites()[0];
+  tileEngine = level.gS()[0];
 
   setCanvasSize(tileEngine.mapwidth * 2, tileEngine.mapheight * 2);
   game.loaded = true;
@@ -72,7 +73,7 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
     [
       "Welcome to the",
       (() => {
-        let text = "NOEGNUD";
+        let text = gameTitle;
         let lastShuffle = new Date();
         let delta = 2000;
 
@@ -80,12 +81,12 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
           if (new Date() - lastShuffle > delta) {
             text = text
               .split("")
-              .sort(() => (Math.random() > 0.5 ? -1 : 1))
+              .sort(() => (Math.random() > .5 ? -1 : 1))
               .join("");
-            if (Math.random() < 0.2) {
+            if (Math.random() < .2) {
               text = "DUNGEON";
-            } else if (Math.random() > 0.8) {
-              text = "NOEGNUD";
+            } else if (Math.random() > .8) {
+              text = gameTitle;
             }
             lastShuffle = new Date();
             delta = 250;
@@ -119,10 +120,10 @@ game.add(progressBar);
 
 var loop = GameLoop({
   update() {
-    const sprites = game.getSprites();
-    const monsters = sprites.filter(s => s.type === "monster");
-    const playerSprite = sprites.filter(s => s.type === "player")[0];
-    const shields = sprites.filter(s => s.type === "shield");
+    const sprites = game.gS();
+    const monsters = sprites.filter(s => s.type === "m");
+    const playerSprite = sprites.filter(s => s.type === "p")[0];
+    const shields = sprites.filter(s => s.type === "a");
     let ladder;
 
     function hurtPlayer(player, enemy, sprites) {
@@ -132,7 +133,7 @@ var loop = GameLoop({
       if (player.healthPoints <= 0) {
         sprites
           .filter(s =>
-            ["player", "shadow", "weapon", "shield"].includes(s.type)
+            ["p", "x", "w", "a"].includes(s.type)
           )
           .forEach(s => s.ttl = 0);
         game.add(new TombStone(playerSprite));
@@ -144,14 +145,14 @@ var loop = GameLoop({
       game.loaded &&
       startScreen.hidden &&
       !monsters.length &&
-      !sprites.find(s => s.type === "ladder")
+      !sprites.find(s => s.type === "l")
     ) {
       ladder = new Ladder();
       game.add(ladder, 1);
     }
 
     sprites.forEach(sprite => {
-      if (sprite.type === "weapon" && sprite.entity.animate) {
+      if (sprite.type === "w" && sprite.entity.animate) {
         monsters.forEach(monster => {
           if (collides(monster, sprite)) {
             zzfx(.3, .1, 94, .1, .14, 0, 0, 5, .29); // ZzFX 39966
@@ -166,7 +167,7 @@ var loop = GameLoop({
             sprite.ttl = 0;
           }
         });
-      } else if (sprite.type === "monsterWeapon") {
+      } else if (sprite.type === "mw") {
         if (collides(playerSprite, sprite)) {
           hurtPlayer(player, sprite.monster, sprites);
 
@@ -186,9 +187,9 @@ var loop = GameLoop({
           }
         });
       } else if (
-        sprite.type === "ladder" &&
+        sprite.type === "l" &&
         collides(playerSprite, sprite) &&
-        !player.climbing
+        !player._c
       ) {
         player.climb(sprite);
 
@@ -215,7 +216,7 @@ var loop = GameLoop({
   },
   render() {
     const ctx = getContext();
-    const sprites = game.getSprites();
+    const sprites = game.gS();
 
     sprites.forEach(s => {
       ctx.save();

@@ -20,7 +20,7 @@ export default class SplashScreen {
     return this._hide;
   }
 
-  getSprites() {
+  gS() {
     if (this._hide) {
       return [];
     }
@@ -116,7 +116,7 @@ export default class SplashScreen {
 
 export function getPauseScreen(player, level, onClick) {
   const needSkillRemoval = level.difficulty % 2 === 1;
-  const shadow = player.skills.find(s => s.type === "shadow");
+  const shadow = player.skills.find(s => s.type === "x");
   const removalMessage = "Remove skill and resume run!";
   const keepMessage = "You can keep all skills this round!";
   const messages = [

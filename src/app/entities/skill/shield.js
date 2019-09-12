@@ -1,40 +1,37 @@
 import Sprite from "kontra/src/sprite";
 
-const ROTATION_MAP = [0, Math.PI, Math.PI / 2, -Math.PI / 2];
+const RM = [0, Math.PI, Math.PI / 2, -Math.PI / 2];
 
 export default function skillShield(player) {
   return Sprite({
-    type: "shield",
+    type: "a",
     height: 3,
     width: 20,
-    sAlpha: 1,
-    sAlphaDirection: 0.01,
-    anchor: { x: 0.5, y: 0.5 },
+    a: 1,
+    da: .01,
+    anchor: { x: .5, y: .5 },
     distance: 50,
-    render() {
-      this.__proto__.render.call(this);
-    },
     update() {
       this.advance();
-      this.color = `rgba(200, 200, 200, ${this.sAlpha})`;
-      this.sAlpha += this.sAlphaDirection;
+      this.color = `rgba(200, 200, 200, ${this.a})`;
+      this.a += this.da;
 
-      if (this.sAlpha <= 0.3) {
-        this.sAlphaDirection = 0.01;
-      } else if (this.sAlpha >= 1) {
-        this.sAlphaDirection = -0.01;
+      if (this.a <= .3) {
+        this.da = .01;
+      } else if (this.a >= 1) {
+        this.da = -.01;
       }
 
       if (!this.rotation) {
         this.rotation =
-          ROTATION_MAP[
+          RM[
             player.skills
-              .filter(s => s && s.type === "shield")
+              .filter(s => s && s.type === "a")
               .findIndex(s => s === this)
           ];
       }
 
-      this.rotation += 0.02;
+      this.rotation += .02;
 
       const playerCenter = {
         x: player.playerSprite.x + player.playerSprite.width / 2,
@@ -45,11 +42,11 @@ export default function skillShield(player) {
         this.x = playerCenter.x;
         this.y = playerCenter.y - this.distance;
       } else {
-        const cosTheta = Math.cos(this.rotation);
-        const sinTheta = Math.sin(this.rotation);
+        const c = Math.cos(this.rotation);
+        const t = Math.sin(this.rotation);
         const pos = {
-          x: sinTheta * this.distance + playerCenter.x,
-          y: cosTheta * -this.distance + playerCenter.y
+          x: t * this.distance + playerCenter.x,
+          y: c * -this.distance + playerCenter.y
         };
 
         this.x = pos.x;
@@ -60,4 +57,4 @@ export default function skillShield(player) {
 }
 
 skillShield.title = "Shield";
-skillShield.type = "shield";
+skillShield.type = "a";

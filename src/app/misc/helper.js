@@ -1,27 +1,7 @@
 export function wrap(originalFun, newFun, context) {
-  return function() {
+  return function () {
     newFun(originalFun);
   };
-}
-
-export function getImage(url) {
-  return new Promise(resolve => {
-    let image = new Image();
-
-    image.src = url;
-    image.onload = function() {
-      resolve(image);
-    };
-  });
-}
-
-let logBuffer = [];
-export function log(s) {
-  logBuffer.push(s);
-  if (logBuffer.length == 50) {
-    console.log(logBuffer);
-    logBuffer = [];
-  }
 }
 
 export function getDirection(speed, source, target) {
