@@ -47,7 +47,6 @@ function syncPosition(shadowSprite, playerSprite) {
   shadowSprite.prevX = shadowSprite.x;
   shadowSprite.x = playerSprite.x;
   shadowSprite.y = playerSprite.y;
-  console.log(shadowSprite.width, playerSprite.width)
 }
 
 skillShadow.title = "Shadow";

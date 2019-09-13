@@ -95,7 +95,11 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
           ctx.fillText(text, this.width / 4, line.y);
         };
       })(),
-      ["Touch to start!", { footer: true, fontSize: 10 }]
+      '',
+      '',
+      '',
+      ["Touch to start!"],
+      ["(The game will ask for access to your audio system!)", { footer: true, fontSize: 8}]
     ],
     () => {
       const initGame = () => {
@@ -196,7 +200,7 @@ var loop = GameLoop({
         let screen;
 
         if (level.difficulty === 1) {
-          screen = getWinnerScreen();
+          screen = getWinnerScreen(level, player);
         } else {
           screen = getPauseScreen(player, level, () => {
             screen.hide();

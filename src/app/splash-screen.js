@@ -51,6 +51,7 @@ export default class SplashScreen {
           const content = typeof splashScreen.content === "function"
             ? splashScreen.content()
             : splashScreen.content;
+          let footerY = canvas.height / 2 - 30;
 
           splashScreen.lines = content.map((line, i) => {
             let y = 50 + i * splashScreen.options.lineHeight;
@@ -62,7 +63,8 @@ export default class SplashScreen {
               const options = [line].flat()[1] || {};
 
               if (options.footer) {
-                y = canvas.height / 2 - 30;
+                y = footerY;
+                footerY += options.lineHeight || splashScreen.options.lineHeight;
               }
 
               return { y, text, options };
@@ -162,8 +164,21 @@ export function getEndScreen() {
   );
 }
 
-export function getWinnerScreen() {
-  return new SplashScreen(["Woop! You won!"], () => {
+export function getWinnerScreen(level, player) {
+  const shadow = player.skills.find(s => s.type === "x");
+
+  return new SplashScreen([
+    [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
+    "",
+    ["Current player stats", { underline: true }],
+    `❤ ${player.healthPoints} / ${player.baseHealth}`,
+    `🔪 ${player.damage}` + (shadow ? ` + ${shadow.damage}` : ""),
+    "",
+    "",
+    ["Congratulations!", { fontSize: 20 }],
+    "You won the game!",
+    ["Press to restart!", { footer: true }]
+  ], () => {
     document.location.reload();
   });
 }
