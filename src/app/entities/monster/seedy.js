@@ -9,17 +9,8 @@ export default function devil(player) {
   return new Monster({
     baseHealth: 1250,
     damage: 10,
-
-    animations: {
-      walk: {
-        frames: "15..18",
-        frameRate: 8
-      },
-      ouch: {
-        frames: "19..19",
-        frameRate: 1
-      }
-    },
+    walk: "15..18",
+    ouch: "19..19",
 
     update() {
       if (new Date() - (lastTeleportedAt || 0) > 5000) {

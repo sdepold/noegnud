@@ -18,17 +18,8 @@ export default function skullFace() {
   return new Monster({
     baseHealth: 500,
     damage: 100,
-
-    animations: {
-      walk: {
-        frames: "5..8",
-        frameRate: 8
-      },
-      ouch: {
-        frames: "9..9",
-        frameRate: 1
-      }
-    },
+    walk: "5..8",
+    ouch: "9..9",
 
     shouldAttack: monster => {
       const result = monster.attackAt && monster.attackAt < ~~new Date();
@@ -82,7 +73,7 @@ export default function skullFace() {
         })
       );
 
-      zzfx(1,.1,1216,.4,.08,4.3,2.4,.7,.02);
+      zzfx(1, .1, 1216, .4, .08, 4.3, 2.4, .7, .02);
     }
   });
 }

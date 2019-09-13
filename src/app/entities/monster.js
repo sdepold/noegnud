@@ -14,10 +14,11 @@ export default class Monster extends Base {
       shouldAttack = () => false,
       baseHealth,
       damage,
-      animations,
       dx = Math.random() * 3 - 2,
       dy = Math.random() * 3 - 2,
-      update = function() {}
+      update = function() {},
+      walk,
+      ouch
     } = {}
   ) {
     super({ level });
@@ -25,11 +26,12 @@ export default class Monster extends Base {
     this.healthPoints = this.baseHealth = baseHealth;
     this.attack = attack;
     this.shouldAttack = shouldAttack;
-    this.damage = damage;
-    this.animations = animations;
+    this.d = damage;
     this.dx = dx;
     this.dy = dy;
     this.optionalUpdate = update;
+    this.walkFrames=walk;
+    this.ouchFrames = ouch;
   }
 
   gS() {
@@ -45,7 +47,16 @@ export default class Monster extends Base {
         image: image,
         frameWidth: 16,
         frameHeight: 26,
-        animations: this.animations
+        animations: {
+          walk: {
+            frames: this.walkFrames,
+            frameRate: 8
+          },
+          ouch: {
+            frames: this.ouchFrames,
+            frameRate: 1
+          }
+        }
       });
 
       const canvas = getCanvas();

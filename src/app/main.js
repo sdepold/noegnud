@@ -113,7 +113,6 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
       lineHeight: 30
     }
   );
-
   game.add(startScreen, 12);
   game.add(level, 0);
   game.add(player, 2);
@@ -131,8 +130,8 @@ var loop = GameLoop({
     let ladder;
 
     function hurtPlayer(player, enemy, sprites) {
-      player.healthPoints -= enemy.damage;
-      renderDamage(player, enemy.damage);
+      player.healthPoints -= enemy.d;
+      renderDamage(player, enemy.d);
 
       if (player.healthPoints <= 0) {
         sprites
@@ -160,8 +159,8 @@ var loop = GameLoop({
         monsters.forEach(monster => {
           if (collides(monster, sprite)) {
             zzfx(.3, .1, 94, .1, .14, 0, 0, 5, .29); // ZzFX 39966
-            monster.entity.healthPoints -= player.damage;
-            renderDamage(monster, player.damage);
+            monster.entity.healthPoints -= player.d;
+            renderDamage(monster, player.d);
 
             if (monster.entity.healthPoints <= 0) {
               monster.ttl = 0;

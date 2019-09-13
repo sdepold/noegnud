@@ -8,7 +8,7 @@ export default function skillShadow(player) {
 
   syncPosition(shadowSprite, playerSprite);
 
-  shadow.damage *= .25;
+  shadow.d *= .25;
   shadow.type = shadowSprite.type = "x";
   shadowSprite.render = wrap(shadowSprite.render, render => {
     shadowSprite.context.save();

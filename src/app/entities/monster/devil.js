@@ -19,17 +19,8 @@ export default function devil(player) {
   return new Monster({
     baseHealth: 250,
     damage: 250,
-
-    animations: {
-      walk: {
-        frames: "10..13",
-        frameRate: 8
-      },
-      ouch: {
-        frames: "14..14",
-        frameRate: 1
-      }
-    },
+    walk: "10..13",
+    ouch: "14..14",
 
     shouldAttack: monster => {
       const result = monster.attackAt && monster.attackAt < ~~new Date();
@@ -42,7 +33,7 @@ export default function devil(player) {
     },
 
     attack: (monster, sprite) => {
-      const {dx, dy, angle} = getDirection(5, monster.sprite, player.playerSprite);
+      const { dx, dy, angle } = getDirection(5, monster.sprite, player.playerSprite);
 
       monster.weapons.push(Sprite({
         monster,
@@ -58,7 +49,7 @@ export default function devil(player) {
         anchor: { x: .5, y: .5 }
       }));
 
-      zzfx(1,.1,131,1,.4,0,4.3,0,.05);
+      zzfx(1, .1, 131, 1, .4, 0, 4.3, 0, .05);
     }
   });
 }

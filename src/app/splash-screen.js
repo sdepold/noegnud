@@ -51,7 +51,6 @@ export default class SplashScreen {
           const content = typeof splashScreen.content === "function"
             ? splashScreen.content()
             : splashScreen.content;
-          let footerY = canvas.height / 2 - 30;
 
           splashScreen.lines = content.map((line, i) => {
             let y = 50 + i * splashScreen.options.lineHeight;
@@ -63,8 +62,7 @@ export default class SplashScreen {
               const options = [line].flat()[1] || {};
 
               if (options.footer) {
-                y = footerY;
-                footerY += options.lineHeight || splashScreen.options.lineHeight;
+                y = canvas.height / 2 - 30;
               }
 
               return { y, text, options };
@@ -116,20 +114,25 @@ export default class SplashScreen {
   }
 }
 
+function levelTransitionIntro(player, level) {
+  const shadow = player.skills.find(s => s.type === "x");
+
+  return [
+    [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
+    "",
+    ["Current player stats", { underline: true }],
+    `❤ ${player.healthPoints} / ${player.baseHealth}`,
+    `🔪 ${player.d}` + (shadow ? ` + ${shadow.d}` : "")
+  ];
+}
+
 export function getPauseScreen(player, level, onClick) {
   const needSkillRemoval = level.difficulty % 2 === 1;
   const shadow = player.skills.find(s => s.type === "x");
   const removalMessage = "Remove skill and resume run!";
   const keepMessage = "You can keep all skills this round!";
-  const messages = [
-    [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
-    "",
-    ["Current player stats", { underline: true }],
-    `❤ ${player.healthPoints} / ${player.baseHealth}`,
-    `🔪 ${player.damage}` + (shadow ? ` + ${shadow.damage}` : ""),
-    "",
-    ["Player skills", { underline: true }]
-  ]
+  const messages = levelTransitionIntro(player, level)
+    .concat(["", ["Player skills", { underline: true }]])
     .concat(player.skills.map(s => s.title))
     .concat([
       [needSkillRemoval ? removalMessage : keepMessage, { footer: true }]
@@ -165,20 +168,17 @@ export function getEndScreen() {
 }
 
 export function getWinnerScreen(level, player) {
-  const shadow = player.skills.find(s => s.type === "x");
-
-  return new SplashScreen([
-    [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
-    "",
-    ["Current player stats", { underline: true }],
-    `❤ ${player.healthPoints} / ${player.baseHealth}`,
-    `🔪 ${player.damage}` + (shadow ? ` + ${shadow.damage}` : ""),
-    "",
-    "",
-    ["Congratulations!", { fontSize: 20 }],
-    "You won the game!",
-    ["Press to restart!", { footer: true }]
-  ], () => {
-    document.location.reload();
-  });
+  return new SplashScreen(
+    levelTransitionIntro(player, level)
+      .concat(
+        [
+          "",
+          "",
+          ["Congratulations!", { fontSize: 20 }],
+          "You won the game!",
+          ["Press to restart!", { footer: true }]
+        ])
+    , () => {
+      document.location.reload();
+    });
 }

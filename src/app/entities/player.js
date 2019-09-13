@@ -23,7 +23,7 @@ export default class Player extends Base {
     this.skills = skills || getSkills(this, 4);
     this.weapons = [new Weapon(this)];
     this.target = null;
-    this.damage = 50;
+    this.d = 50;
   }
 
   climb(ladder) {
