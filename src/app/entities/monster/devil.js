@@ -18,7 +18,7 @@ export default function devil(player) {
 
   return new Monster({
     baseHealth: 250,
-    damage: 400,
+    damage: 250,
 
     animations: {
       walk: {
