@@ -34,7 +34,7 @@ export default class Monster extends Base {
     this.ouchFrames = ouch;
   }
 
-  gS() {
+  getSprites() {
     return this.weapons.concat(this.getMonsterSprite());
   }
 

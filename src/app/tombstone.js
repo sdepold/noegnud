@@ -8,7 +8,7 @@ export default class TombStone {
     this.object = obj;
   }
 
-  gS() {
+  getSprites() {
     const { x, y } = this.object;
 
     if (!this.sprites) {

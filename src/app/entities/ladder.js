@@ -2,7 +2,7 @@ import Sprite from "kontra/src/sprite";
 import { getCanvas } from "kontra/src/core";
 
 export default class Ladder {
-  gS() {
+  getSprites() {
     if (!this.ladder) {
       const width = getCanvas().width / 2;
 

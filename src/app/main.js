@@ -56,14 +56,14 @@ function renderDamage({ x, y }, damage) {
       }
     }
   });
-  game.add({ gS() { return [sprite] } });
+  game.add({ getSprites() { return [sprite] } });
 }
 
 let player, tileEngine, level, startScreen;
 const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
   player = new Player(game, controller);
   level = new Level(width, height);
-  tileEngine = level.gS()[0];
+  tileEngine = level.getSprites()[0];
 
   setCanvasSize(tileEngine.mapwidth * 2, tileEngine.mapheight * 2);
   game.loaded = true;
@@ -123,7 +123,7 @@ game.add(progressBar);
 
 var loop = GameLoop({
   update() {
-    const sprites = game.gS();
+    const sprites = game.getSprites();
     const monsters = sprites.filter(s => s.type === "m");
     const playerSprite = sprites.filter(s => s.type === "p")[0];
     const shields = sprites.filter(s => s.type === "a");
@@ -219,7 +219,7 @@ var loop = GameLoop({
   },
   render() {
     const ctx = getContext();
-    const sprites = game.gS();
+    const sprites = game.getSprites();
 
     sprites.forEach(s => {
       ctx.save();

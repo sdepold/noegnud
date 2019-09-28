@@ -113,7 +113,7 @@ export default class Level {
     });
   }
 
-  gS() {
+  getSprites() {
     if (!this.tileEngine) {
       this.reset();
     }

@@ -20,7 +20,7 @@ export default class SplashScreen {
     return this._hide;
   }
 
-  gS() {
+  getSprites() {
     if (this._hide) {
       return [];
     }

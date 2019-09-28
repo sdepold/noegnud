@@ -11,7 +11,7 @@ export default class Weapon {
   }
 
   syncPosition({ x, y }) {
-    const sprite = this.gS();
+    const sprite = this.getSprites();
 
     if (!this.animate) {
       sprite.x = x + 20;
@@ -19,7 +19,7 @@ export default class Weapon {
     }
   }
 
-  gS() {
+  getSprites() {
     if (!this.sprite) {
       const weapon = this;
       const player = this.player;

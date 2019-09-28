@@ -66,10 +66,10 @@ export default class Player extends Base {
     );
   }
 
-  gS() {
-    const weaponSprites = this.weapons.flatMap(weapon => weapon.gS());
+  getSprites() {
+    const weaponSprites = this.weapons.flatMap(weapon => weapon.getSprites());
     const skillSprites = this.skills.flatMap(
-      skill => (skill.gS ? skill.gS() : skill)
+      skill => (skill.getSprites ? skill.getSprites() : skill)
     );
 
     const allSprites = skillSprites
