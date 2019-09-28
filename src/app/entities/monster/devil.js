@@ -5,7 +5,7 @@ import { getDirection } from '../../misc/helper';
 
 export default function devil(player) {
   const weaponSheet = SpriteSheet({
-    image: document.querySelector("#w"),
+    image: document.querySelector("#weapon"),
     frameWidth: 8,
     frameHeight: 19,
     animations: {
@@ -37,7 +37,7 @@ export default function devil(player) {
 
       monster.weapons.push(Sprite({
         monster,
-        type: "mw",
+        type: "monsterWeapon",
         x: sprite.x - 5,
         y: sprite.y + sprite.height / 2 + 10,
         dx,

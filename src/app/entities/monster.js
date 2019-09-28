@@ -10,13 +10,13 @@ export default class Monster extends Base {
   constructor(
     {
       level = 10,
-      attack = () => {},
+      attack = () => { },
       shouldAttack = () => false,
       baseHealth,
       damage,
       dx = Math.random() * 3 - 2,
       dy = Math.random() * 3 - 2,
-      update = function() {},
+      update = function () { },
       walk,
       ouch
     } = {}
@@ -30,7 +30,7 @@ export default class Monster extends Base {
     this.dx = dx;
     this.dy = dy;
     this.optionalUpdate = update;
-    this.walkFrames=walk;
+    this.walkFrames = walk;
     this.ouchFrames = ouch;
   }
 
@@ -42,7 +42,7 @@ export default class Monster extends Base {
     const monster = this;
 
     if (!this.sprite) {
-      const image = document.querySelector("#c");
+      const image = document.querySelector("#chars");
       const spriteSheet = SpriteSheet({
         image: image,
         frameWidth: 16,
@@ -63,7 +63,7 @@ export default class Monster extends Base {
 
       this.sprite = Sprite({
         entity: this,
-        type: "m",
+        type: "monster",
         x: Math.min(30, Math.random() * (canvas.width / 2 - 30)),
         y: Math.max(30, Math.random() * (canvas.height / 2 - 60)),
         dx: this.dx,

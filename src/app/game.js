@@ -29,7 +29,7 @@ export default class Game {
     getClosest(player, 'monster');
   */
   getClosest(source, type) {
-    const sprites = this.getSprites(l => l.type !== "t");
+    const sprites = this.getSprites(l => l.type !== "tiles");
     const spritesOfType = sprites.filter(s => s !== source && s.type === type);
     const getDistance = (a, b) =>
       Math.sqrt(

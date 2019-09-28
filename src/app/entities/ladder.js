@@ -7,7 +7,7 @@ export default class Ladder {
       const width = getCanvas().width / 2;
 
       this.ladder = Sprite({
-        type: "l",
+        type: "ladder",
         color: "#b69c8a",
         x: Math.min(30, 60 + Math.random() * width - 60),
         y: 18,

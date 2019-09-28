@@ -4,7 +4,7 @@ const RM = [0, Math.PI, Math.PI / 2, -Math.PI / 2];
 
 export default function skillShield(player) {
   return Sprite({
-    type: "a",
+    type: "shield",
     height: 3,
     width: 20,
     a: 1,
@@ -25,9 +25,9 @@ export default function skillShield(player) {
       if (!this.rotation) {
         this.rotation =
           RM[
-            player.skills
-              .filter(s => s && s.type === "a")
-              .findIndex(s => s === this)
+          player.skills
+            .filter(s => s && s.type === "shield")
+            .findIndex(s => s === this)
           ];
       }
 
@@ -57,4 +57,4 @@ export default function skillShield(player) {
 }
 
 skillShield.title = "Shield";
-skillShield.type = "a";
+skillShield.type = "shield";

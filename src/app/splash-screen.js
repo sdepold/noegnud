@@ -115,7 +115,7 @@ export default class SplashScreen {
 }
 
 function levelTransitionIntro(player, level) {
-  const shadow = player.skills.find(s => s.type === "x");
+  const shadow = player.skills.find(s => s.type === "shadow");
 
   return [
     [`You finished level ${level.difficulty}!`, { fontSize: 14 }],
@@ -128,7 +128,7 @@ function levelTransitionIntro(player, level) {
 
 export function getPauseScreen(player, level, onClick) {
   const needSkillRemoval = level.difficulty % 2 === 1;
-  const shadow = player.skills.find(s => s.type === "x");
+  const shadow = player.skills.find(s => s.type === "shadow");
   const removalMessage = "Remove skill and resume run!";
   const keepMessage = "You can keep all skills this round!";
   const messages = levelTransitionIntro(player, level)

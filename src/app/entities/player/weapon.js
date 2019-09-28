@@ -25,7 +25,7 @@ export default class Weapon {
       const player = this.player;
 
       const spriteSheet = SpriteSheet({
-        image: document.querySelector("#w"),
+        image: document.querySelector("#weapon"),
         frameWidth: 8,
         frameHeight: 19,
         animations: {
@@ -40,7 +40,7 @@ export default class Weapon {
 
       this.sprite = Sprite({
         entity: weapon,
-        type: "w",
+        type: "weapon",
         x: 40,
         y: 50,
         dx: 0,

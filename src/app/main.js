@@ -99,7 +99,7 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
       '',
       '',
       ["Touch to start!"],
-      ["(The game will ask for access to your audio system!)", { footer: true, fontSize: 8}]
+      ["(The game will ask for access to your audio system!)", { footer: true, fontSize: 8 }]
     ],
     () => {
       const initGame = () => {
@@ -124,9 +124,9 @@ game.add(progressBar);
 var loop = GameLoop({
   update() {
     const sprites = game.getSprites();
-    const monsters = sprites.filter(s => s.type === "m");
-    const playerSprite = sprites.filter(s => s.type === "p")[0];
-    const shields = sprites.filter(s => s.type === "a");
+    const monsters = sprites.filter(s => s.type === "monster");
+    const playerSprite = sprites.filter(s => s.type === "player")[0];
+    const shields = sprites.filter(s => s.type === "shield");
     let ladder;
 
     function hurtPlayer(player, enemy, sprites) {
@@ -136,7 +136,7 @@ var loop = GameLoop({
       if (player.healthPoints <= 0) {
         sprites
           .filter(s =>
-            ["p", "x", "w", "a"].includes(s.type)
+            ["player", "shadow", "weapon", "shield"].includes(s.type)
           )
           .forEach(s => s.ttl = 0);
         game.add(new TombStone(playerSprite));
@@ -148,14 +148,14 @@ var loop = GameLoop({
       game.loaded &&
       startScreen.hidden &&
       !monsters.length &&
-      !sprites.find(s => s.type === "l")
+      !sprites.find(s => s.type === "ladder")
     ) {
       ladder = new Ladder();
       game.add(ladder, 1);
     }
 
     sprites.forEach(sprite => {
-      if (sprite.type === "w" && sprite.entity.animate) {
+      if (sprite.type === "weapon" && sprite.entity.animate) {
         monsters.forEach(monster => {
           if (collides(monster, sprite)) {
             zzfx(.3, .1, 94, .1, .14, 0, 0, 5, .29); // ZzFX 39966
@@ -170,7 +170,7 @@ var loop = GameLoop({
             sprite.ttl = 0;
           }
         });
-      } else if (sprite.type === "mw") {
+      } else if (sprite.type === "monsterWeapon") {
         if (collides(playerSprite, sprite)) {
           hurtPlayer(player, sprite.monster, sprites);
 
@@ -190,7 +190,7 @@ var loop = GameLoop({
           }
         });
       } else if (
-        sprite.type === "l" &&
+        sprite.type === "ladder" &&
         collides(playerSprite, sprite) &&
         !player._c
       ) {

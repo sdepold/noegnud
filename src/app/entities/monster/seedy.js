@@ -42,7 +42,7 @@ export default function devil(player) {
       monster.weapons.push(
         Sprite({
           monster,
-          type: "mw",
+          type: "monsterWeapon",
           x: sprite.x - 5,
           y: sprite.y + sprite.height / 2 + 10,
           dx,

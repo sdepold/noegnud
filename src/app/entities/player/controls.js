@@ -1,7 +1,7 @@
 import { getCanvas } from "kontra/src/core";
 
 const setPlayerTarget = player => {
-  const closestMonster = player.game.getClosest(player.playerSprite, "m");
+  const closestMonster = player.game.getClosest(player.playerSprite, "monster");
 
   if (closestMonster && closestMonster.distance) {
     player.setTarget(closestMonster.sprite);
@@ -13,7 +13,7 @@ export function addKeyboardControls(player) {
   const originalUpdate = player.playerSprite.update.bind(player.playerSprite);
   const canvas = getCanvas();
 
-  player.playerSprite.update = function() {
+  player.playerSprite.update = function () {
     this.prevX = this.x;
     this.prevY = this.y;
 

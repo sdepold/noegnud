@@ -107,7 +107,7 @@ export default class Player extends Base {
   getPlayerSprite() {
     if (!this.playerSprite) {
       const canvas = getCanvas();
-      const image = document.querySelector("#c");
+      const image = document.querySelector("#chars");
       const spriteSheet = SpriteSheet({
         image: image,
         frameWidth: 16,
@@ -126,7 +126,7 @@ export default class Player extends Base {
 
       this.playerSprite = Sprite({
         entity: this,
-        type: "p",
+        type: "player",
         x: canvas.width / 4 - 16,
         y: this.y,
         width: 16,

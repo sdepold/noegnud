@@ -81,7 +81,7 @@ export default class Level {
   reset() {
     this.setData();
     this.tileEngine = TileEngine({
-      type: "t",
+      type: "tiles",
       isAlive: () => true,
       // tile size
       tilewidth: tileSize,
@@ -95,7 +95,7 @@ export default class Level {
       tilesets: [
         {
           firstgid: 1,
-          image: document.querySelector("#l")
+          image: document.querySelector("#ladder")
         }
       ],
 
