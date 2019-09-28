@@ -65,7 +65,6 @@ const progressBar = new ProgressBar(document.querySelectorAll("img"), () => {
   level = new Level(width, height);
   tileEngine = level.getSprites()[0];
 
-  setCanvasSize(tileEngine.mapwidth * 2, tileEngine.mapheight * 2);
   game.loaded = true;
   game.remove(progressBar);
 
